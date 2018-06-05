@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="rvir.mycloset.MainActivity">
+
+    <Button
+        android:id="@+id/gumbMojeOmare"
+        android:layout_width="330dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="32dp"
+        android:background="#f90667"
+        android:onClick="gumb_mojeOmare"
+        android:text="@string/sMojeOmare"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/gumbDodajOblacilo"
+        android:layout_width="330dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="16dp"
+        android:background="#06e006"
+        android:onClick="gumb_dodajOblacilo"
+        android:text="@string/sDodajOblacilo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gumbMojeOmare" />
+
+    <Button
+        android:id="@+id/gumbDodajKombinacijo"
+        android:layout_width="330dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="16dp"
+        android:background="#fff102"
+        android:onClick="gumb_dodajKombinacijo"
+        android:text="@string/sDodajKombinacijo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gumbDodajOblacilo" />
+
+    <Button
+        android:id="@+id/gumbKajNajOblecem"
+        android:layout_width="330dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="16dp"
+        android:background="#1a8cff"
+        android:onClick="gumb_kajNajOblecem"
+        android:text="@string/sKajNajOblecem"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gumbDodajKombinacijo" />
+
+</android.support.constraint.ConstraintLayout>

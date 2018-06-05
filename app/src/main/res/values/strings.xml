@@ -1,0 +1,51 @@
+<resources>
+
+    <string name="app_name">MyCloset</string>
+    <string name="sMojeOmare">Moje omare</string>
+    <string name="sDodajOblacilo">Dodaj oblačilo</string>
+    <string name="sDodajKombinacijo">Dodaj kombinacijo</string>
+    <string name="sKajNajOblecem">Kaj naj oblečem?</string>
+
+
+    <string name="sDodajSliko">Dodaj sliko</string>
+    <string name="sNaziv">Naziv</string>
+    <string name="sVrsta">Vrsta:</string>
+    <string-array name="arrVrsta">
+        <item>Top</item>
+        <item>Bottom</item>
+        <item>Vrhnje</item>
+        <item>Obleka</item>
+    </string-array>
+    <string name="sPriloznost">Priložnost:</string>
+    <string-array name="arrPriloznost">
+        <item>Šport</item>
+        <item>Vsakdanje</item>
+        <item>Zabava</item>
+        <item>Posebne priložnosti</item>
+    </string-array>
+    <string name="sOmara">Omara:</string>
+    <string name="sPolica">Polica:</string>
+    <string name="sPoletje">Poletje:</string>
+    <string name="sPomlad">Pomlad:</string>
+    <string name="sJesen">Jesen:</string>
+    <string name="sZima">Zima:</string>
+    <string-array name="arrLetniCasi">
+        <item>Oblačilo se ne more nositi v tem letnem času</item>
+        <item>Oblačilo se lahko nosi v tem letnem času</item>
+        <item>Oblačilo se lahko nosi v kombinaciji z drugim oblačilom v tem letnem času</item>
+    </string-array>
+
+
+    <!--  Activity SeznamOmarActivity  -->
+    <string name="sDodajNovoOmaro">Dodaj novo omaro</string>
+    <string name="sNazivOmare">Naziv omare</string>
+    <string name="sSteviloPolic">Stevilo polic</string>
+
+
+    <!--  Activity SeznamPolicActivity -->
+    <string name="sDodajNovoPolico">Dodaj novo polico</string>
+    <string name="sNazivPolice">Naziv police</string>
+    <string name="sKapacitetaPolice">Kapaciteta police</string>
+
+
+</resources>
