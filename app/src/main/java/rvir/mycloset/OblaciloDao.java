@@ -23,6 +23,9 @@ public interface OblaciloDao {
     @Query("SELECT * FROM oblacilo WHERE id_oblacilo IN (:oblaciloId)")
     List<Oblacilo> loadAllByIds(int[] oblaciloId);
 
+    @Query("SELECT * FROM oblacilo WHERE tk_id_polica =:policaId")
+    List<Oblacilo> getAllIstaPolica(final int policaId);
+
     @Query("SELECT * FROM oblacilo WHERE naziv LIKE :naziv LIMIT 1")
     List<Oblacilo> findOblaciloByName(String naziv);
 

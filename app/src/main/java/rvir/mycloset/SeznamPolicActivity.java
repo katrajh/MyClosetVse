@@ -3,11 +3,9 @@ package rvir.mycloset;
 import android.app.Dialog;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
-import android.database.Cursor;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,7 +26,7 @@ public class SeznamPolicActivity extends AppCompatActivity implements PopUpDialo
 
     AppDB db;
 
-    ArrayList<String> list;
+    ArrayList<String> arrayList;
     int v_idO;
 
     @Override
@@ -36,7 +34,11 @@ public class SeznamPolicActivity extends AppCompatActivity implements PopUpDialo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seznam_polic);
 
-        v_idO = Integer.parseInt(getIntent().getStringExtra("idO"));
+        Bundle bundle = getIntent().getExtras();
+
+        if(bundle != null) {
+            v_idO = bundle.getInt("idO");
+        }
 
         dialog_dodajPolico = new Dialog(SeznamPolicActivity.this);
 
@@ -58,65 +60,86 @@ public class SeznamPolicActivity extends AppCompatActivity implements PopUpDialo
 
         // SEZNAM POLIC
 
-        List<Polica> list_polica = db.policaDao().getAllIstaOmara(v_idO);
+        final List<Polica> list_polica = db.policaDao().getAllIstaOmara(v_idO);
 
-        list = new ArrayList<>();
+        arrayList = new ArrayList<>();
 
         if(list_polica.size() == 0) {
             Toast.makeText(SeznamPolicActivity.this, "Tabela je prazna", Toast.LENGTH_LONG).show();
         }
         else {
             for (int i=0; i<list_polica.size(); i++) {
-                String nazivP = list_polica.get(i).getNaziv().toString();
-                int kap = list_polica.get(i).getKapaciteta();
+                String nazivP = list_polica.get(i).getNaziv();
+                int kapac = list_polica.get(i).getKapaciteta();
 
-                list.add(nazivP+"\n"+kap);
-                ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
+                arrayList.add(nazivP+"\nKapaciteta: "+kapac+" oblačil");
+                ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayList);
                 listViewPolice.setAdapter(listAdapter);
             }
         }
 
 
         // za posamezno polico ko kliknes
-        /*
 
         listViewPolice.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+                List<Polica> listp = null;
+                if(tkOmara != 0) {
+                    listp = db.policaDao().getAllIstaOmara(tkOmara);
+                }
+                else {
+                    listp = db.policaDao().getAllIstaOmara(v_idO);
+                }
 
 
-                Intent intent = new Intent(view.getContext(), SeznamPolicActivity.class);
-                intent.putExtra("nazivP", )
+                int idP = +listp.get(i).getId();
+                String nazivP = listp.get(i).getNaziv();
+                int kapacP = listp.get(i).getKapaciteta();
+                int idO = listp.get(i).getTk_omara();
+
+                Log.w("LOG", "IdPolice: "+idP);
+
+                Intent intent = new Intent(getApplicationContext(), UrejanjePoliceActivity.class);
+                intent.putExtra("idP", idP);
+                intent.putExtra("nazivP", nazivP);
+                intent.putExtra("kapacP", kapacP);
+                intent.putExtra("idO", idO);
+
+                startActivity(intent);
+                finish();
 
             }
 
         });
 
-        */
-
     }
 
 
+    int tkOmara=0;
+
     @Override
-    public void applyInput(String naziv, int kap) {
+    public void applyInput(String naziv, int kap, int tkIdO) {
 
         // SEZNAM POLIC
 
-        List<Polica> list_polica = db.policaDao().getAllIstaOmara(v_idO);
+        tkOmara = tkIdO;
 
-        list = new ArrayList<>();
+        List<Polica> list_polica = db.policaDao().getAllIstaOmara(tkIdO);
+
+        arrayList = new ArrayList<>();
 
         if(list_polica.size() == 0) {
             Toast.makeText(SeznamPolicActivity.this, "Tabela je prazna", Toast.LENGTH_LONG).show();
         }
         else {
             for (int i=0; i<list_polica.size(); i++) {
-                String nazivP = list_polica.get(i).getNaziv().toString();
+                String nazivP = list_polica.get(i).getNaziv();
                 int kapac = list_polica.get(i).getKapaciteta();
 
-                list.add(nazivP+"\n"+kapac);
-                ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
+                arrayList.add(nazivP+"\nKapaciteta: "+kapac+" oblačil");
+                ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayList);
                 listViewPolice.setAdapter(listAdapter);
             }
         }
@@ -129,7 +152,7 @@ public class SeznamPolicActivity extends AppCompatActivity implements PopUpDialo
         Bundle bundle = new Bundle();
         bundle.putInt("idO", v_idO);
         pop.setArguments(bundle);
-        pop.show(getSupportFragmentManager(), "dodaj pollico dialog");
+        pop.show(getSupportFragmentManager(), "dodaj polico dialog");
     }
 
 

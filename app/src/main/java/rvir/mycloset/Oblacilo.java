@@ -23,8 +23,8 @@ public class Oblacilo {
 
     private String slika;
     private String naziv;
-    private int vrsta;
-    private int priloznost;
+    private String vrsta;
+    private String priloznost;
     private int poletje;
     private int pomlad;
     private int zima;
@@ -33,7 +33,7 @@ public class Oblacilo {
     @ColumnInfo(name = "tk_id_polica")
     private int tk_polica;
 
-    public Oblacilo(String slika, String naziv, int vrsta, int priloznost, int poletje, int pomlad, int zima, int jesen, int tk_polica) {
+    public Oblacilo(String slika, String naziv, String vrsta, String priloznost, int poletje, int pomlad, int zima, int jesen, int tk_polica) {
         this.slika = slika;
         this.naziv = naziv;
         this.vrsta = vrsta;
@@ -69,19 +69,19 @@ public class Oblacilo {
         this.naziv = naziv;
     }
 
-    public int getVrsta() {
+    public String getVrsta() {
         return vrsta;
     }
 
-    public void setVrsta(int vrsta) {
+    public void setVrsta(String vrsta) {
         this.vrsta = vrsta;
     }
 
-    public int getPriloznost() {
+    public String getPriloznost() {
         return priloznost;
     }
 
-    public void setPriloznost(int priloznost) {
+    public void setPriloznost(String priloznost) {
         this.priloznost = priloznost;
     }
 

@@ -70,7 +70,7 @@ public class SeznamOmarActivity extends AppCompatActivity implements PopUpDialog
         }
         else {
             for (int i=0; i<list_omara.size(); i++) {
-                String nazivO = list_omara.get(i).getNaziv().toString();
+                String nazivO = list_omara.get(i).getNaziv();
 
                 list.add(nazivO);
 
@@ -79,6 +79,7 @@ public class SeznamOmarActivity extends AppCompatActivity implements PopUpDialog
             }
         }
 
+        // za posamezno omaro ko kliknes
 
         listViewOmare.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -95,7 +96,7 @@ public class SeznamOmarActivity extends AppCompatActivity implements PopUpDialog
                 Log.w("LOG", "position: "+pos+", nativ: "+listo.get(i).getNaziv());
                 */
 
-                String idO = ""+listo.get(i).getId();
+                int idO = listo.get(i).getId();
                 String nazivO = listo.get(i).getNaziv();
 
                 Log.w("LOG", "IdO: "+idO);
@@ -139,7 +140,7 @@ public class SeznamOmarActivity extends AppCompatActivity implements PopUpDialog
         }
         else {
             for (int i=0; i<list_omara.size(); i++) {
-                String nazivO = list_omara.get(i).getNaziv().toString();
+                String nazivO = list_omara.get(i).getNaziv();
 
                 list.add(nazivO);
 

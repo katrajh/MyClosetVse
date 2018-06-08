@@ -3,6 +3,7 @@ package rvir.mycloset;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
 /**
@@ -27,11 +28,17 @@ public class Polica {
     @ColumnInfo(name = "tk_id_omara")
     public int tk_omara;
 
+
+    // ------------- KONSTRUKTOR ---------------
+
     public Polica(String naziv, int kapaciteta, int tk_omara) {
         this.naziv = naziv;
         this.kapaciteta = kapaciteta;
         this.tk_omara = tk_omara;
     }
+
+
+    // ----------- GETERJI IN SETERJI -------------
 
     public int getId() {
         return id;

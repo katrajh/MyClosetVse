@@ -28,7 +28,10 @@ public class PopUpDialog_DodajPolico extends AppCompatDialogFragment{
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         Bundle bundle = getArguments();
-        idO = bundle.getInt("idO");
+
+        if(bundle != null) {
+            idO = bundle.getInt("idO");
+        }
 
         db = Room.databaseBuilder(getContext(), AppDB.class, "rvir")
                 .allowMainThreadQueries()
@@ -51,7 +54,7 @@ public class PopUpDialog_DodajPolico extends AppCompatDialogFragment{
                         int kapac = Integer.parseInt(et_kapac.getText().toString());
                         db.policaDao().insert(new Polica(naziv, kapac, idO));
 
-                        dialogListener.applyInput(naziv, kapac);
+                        dialogListener.applyInput(naziv, kapac, idO);
                     }
                 });
 
@@ -63,13 +66,13 @@ public class PopUpDialog_DodajPolico extends AppCompatDialogFragment{
         super.onAttach(context);
 
         try {
-            dialogListener = (PopUpDialog_DodajPolico.DialogListener) context;
+            dialogListener = (DialogListener) context;
         } catch (ClassCastException e) {
             throw new  ClassCastException(context.toString() + "must implement DialogListener");
         }
     }
 
     public interface DialogListener {
-        void applyInput(String naziv, int kap);
+        void applyInput(String naziv, int kap, int tkIdO);
     }
 }
