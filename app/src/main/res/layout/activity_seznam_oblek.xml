@@ -18,18 +18,17 @@
 
 
         <ListView
-            android:id="@+id/listViewOmare"
+            android:id="@+id/lv_obleke"
             android:layout_width="337dp"
             android:layout_height="463dp"
-            android:layout_marginBottom="0dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.518"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_seznamPolic"
-            app:layout_constraintHorizontal_bias="0.518" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_seznamPolic" />
 
         <TextView
             android:id="@+id/tv_seznamPolic"

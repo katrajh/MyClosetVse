@@ -108,7 +108,7 @@ public class SeznamPolicActivity extends AppCompatActivity implements PopUpDialo
                 intent.putExtra("idO", idO);
 
                 startActivity(intent);
-                finish();
+          //      finish();
 
             }
 

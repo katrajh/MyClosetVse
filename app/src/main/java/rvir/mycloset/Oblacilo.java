@@ -17,8 +17,8 @@ import android.arch.persistence.room.PrimaryKey;
 
 @Entity(tableName = "oblacilo", foreignKeys ={
                                             @ForeignKey
-                                                    (entity = Polica.class, parentColumns = "id_polica", childColumns = "tk_id_polica"),
-                                            @ForeignKey (entity = Omara.class, parentColumns = "id_omara", childColumns = "tk_id_omara")})
+                                                    (entity = Polica.class, parentColumns = "id_polica", childColumns = "tk_id_polica", onDelete = ForeignKey.CASCADE),
+                                            @ForeignKey (entity = Omara.class, parentColumns = "id_omara", childColumns = "tk_id_omara", onDelete = ForeignKey.CASCADE)})
 public class Oblacilo {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id_oblacilo")

@@ -1,6 +1,7 @@
 package rvir.mycloset;
 
 //import android.arch.persistence.room.Room;
+import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
                 AppDB.class, "oblacila" +
                         "").build();
         */
+
     }
 
     public void gumb_mojeOmare(View view) {
