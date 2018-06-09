@@ -24,6 +24,9 @@ public class LetniCasi {
     private int jesen;
     private int zima;
 
+    public LetniCasi() {
+    }
+
     public LetniCasi(int id, int pomlad, int poletje, int jesen, int zima) {
         this.id = id;
         this.pomlad = pomlad;
@@ -44,8 +47,11 @@ public class LetniCasi {
         return pomlad;
     }
 
+
     public void setPomlad(int pomlad) {
-        this.pomlad = pomlad;
+        this.pomlad=pomlad;
+
+
     }
 
     public int getPoletje() {

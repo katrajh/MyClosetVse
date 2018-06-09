@@ -30,7 +30,7 @@ public interface OblaciloDao {
     List<Oblacilo> findOblaciloByName(String naziv);
 
     @Insert
-    void insertAll(Oblacilo... oblacilo);
+    void insert(Oblacilo oblacilo);
 
     @Update
     void update(Oblacilo oblacilo);

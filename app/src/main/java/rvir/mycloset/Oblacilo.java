@@ -15,9 +15,12 @@ import android.arch.persistence.room.PrimaryKey;
     z drugim oblačilom
  */
 
-@Entity(tableName = "oblacilo", foreignKeys = @ForeignKey(entity = Polica.class, parentColumns = "id_polica", childColumns = "tk_id_polica"))
+@Entity(tableName = "oblacilo", foreignKeys ={
+                                            @ForeignKey
+                                                    (entity = Polica.class, parentColumns = "id_polica", childColumns = "tk_id_polica"),
+                                            @ForeignKey (entity = Omara.class, parentColumns = "id_omara", childColumns = "tk_id_omara")})
 public class Oblacilo {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id_oblacilo")
     private int id;
 
@@ -32,8 +35,13 @@ public class Oblacilo {
 
     @ColumnInfo(name = "tk_id_polica")
     private int tk_polica;
+    @ColumnInfo(name = "tk_id_omara")
+    private int tk_omara;
 
-    public Oblacilo(String slika, String naziv, String vrsta, String priloznost, int poletje, int pomlad, int zima, int jesen, int tk_polica) {
+    public Oblacilo() {
+    }
+
+    public Oblacilo(String slika, String naziv, String vrsta, String priloznost, int poletje, int pomlad, int zima, int jesen, int tk_polica, int tk_omara) {
         this.slika = slika;
         this.naziv = naziv;
         this.vrsta = vrsta;
@@ -43,6 +51,7 @@ public class Oblacilo {
         this.zima = zima;
         this.jesen = jesen;
         this.tk_polica = tk_polica;
+        this.tk_omara=tk_omara;
     }
 
     public int getId() {
@@ -123,5 +132,13 @@ public class Oblacilo {
 
     public void setJesen(int jesen) {
         this.jesen = jesen;
+    }
+
+    public int getTk_omara() {
+        return tk_omara;
+    }
+
+    public void setTk_omara(int tk_omara) {
+        this.tk_omara = tk_omara;
     }
 }
