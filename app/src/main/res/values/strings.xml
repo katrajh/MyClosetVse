@@ -26,8 +26,7 @@
     <string name="sOmara">Omara:</string>
     <string name="sPolica">Polica:</string>
     <string name="sPoletje">Poletje:</string>
-    <string name="sPomlad">Pomlad:</string>
-    <string name="sJesen">Jesen:</string>
+    <string name="sPomladJesen">Pomlad in jesen:</string>
     <string name="sZima">Zima:</string>
     <string-array name="arrLetniCasi">
         <item>Oblačilo se ne more nositi v tem letnem času</item>

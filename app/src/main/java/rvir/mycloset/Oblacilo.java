@@ -17,8 +17,8 @@ import android.arch.persistence.room.PrimaryKey;
 
 @Entity(tableName = "oblacilo", foreignKeys ={
                                             @ForeignKey
-                                                    (entity = Polica.class, parentColumns = "id_polica", childColumns = "tk_id_polica"),
-                                            @ForeignKey (entity = Omara.class, parentColumns = "id_omara", childColumns = "tk_id_omara")})
+                                                    (entity = Polica.class, parentColumns = "id_polica", childColumns = "tk_id_polica",onDelete = ForeignKey.CASCADE),
+                                            @ForeignKey (entity = Omara.class, parentColumns = "id_omara", childColumns = "tk_id_omara",onDelete = ForeignKey.CASCADE)})
 public class Oblacilo {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id_oblacilo")
@@ -29,9 +29,8 @@ public class Oblacilo {
     private String vrsta;
     private String priloznost;
     private int poletje;
-    private int pomlad;
+    private int pomladJesen;
     private int zima;
-    private int jesen;
 
     @ColumnInfo(name = "tk_id_polica")
     private int tk_polica;
@@ -41,15 +40,14 @@ public class Oblacilo {
     public Oblacilo() {
     }
 
-    public Oblacilo(String slika, String naziv, String vrsta, String priloznost, int poletje, int pomlad, int zima, int jesen, int tk_polica, int tk_omara) {
+    public Oblacilo(String slika, String naziv, String vrsta, String priloznost, int poletje, int pomladJesen, int zima, int tk_polica, int tk_omara) {
         this.slika = slika;
         this.naziv = naziv;
         this.vrsta = vrsta;
         this.priloznost = priloznost;
         this.poletje = poletje;
-        this.pomlad = pomlad;
+        this.pomladJesen = pomladJesen;
         this.zima = zima;
-        this.jesen = jesen;
         this.tk_polica = tk_polica;
         this.tk_omara=tk_omara;
     }
@@ -110,12 +108,13 @@ public class Oblacilo {
         this.poletje = poletje;
     }
 
-    public int getPomlad() {
-        return pomlad;
+    public int getPomladJesen() {
+        return pomladJesen;
     }
 
-    public void setPomlad(int pomlad) {
-        this.pomlad = pomlad;
+
+    public void setPomladJesen(int pomladJesen) {
+        this.pomladJesen=pomladJesen;
     }
 
     public int getZima() {
@@ -126,14 +125,6 @@ public class Oblacilo {
         this.zima = zima;
     }
 
-    public int getJesen() {
-        return jesen;
-    }
-
-    public void setJesen(int jesen) {
-        this.jesen = jesen;
-    }
-
     public int getTk_omara() {
         return tk_omara;
     }
@@ -142,3 +133,4 @@ public class Oblacilo {
         this.tk_omara = tk_omara;
     }
 }
+

@@ -37,4 +37,6 @@ public interface OblaciloDao {
 
     @Delete
     void delete(Oblacilo oblacilo);
+
+
 }
