@@ -24,12 +24,9 @@ public class Kombinacija {
     @ColumnInfo(name = "id_kombinacija")
     private int id;
 
-    private int poletje;
-    private int pomlad;
-    private int zima;
-    private int jesen;
-    private int priloznost;
-    private int naziv;
+    String letniCas;
+    private String priloznost;
+    private String naziv;
 
     @ColumnInfo(name = "tk_id_povrhnje")
     private int tk_povrhnje;
@@ -40,12 +37,11 @@ public class Kombinacija {
     @ColumnInfo(name = "tk_id_bottom")
     private int tk_bottom;
 
+    public Kombinacija() {
+    }
 
-    public Kombinacija(int poletje, int pomlad, int zima, int jesen, int priloznost, int naziv, int tk_povrhnje, int tk_top, int tk_bottom) {
-        this.poletje = poletje;
-        this.pomlad = pomlad;
-        this.zima = zima;
-        this.jesen = jesen;
+    public Kombinacija(String letniCas, String priloznost, String naziv, int tk_povrhnje, int tk_top, int tk_bottom) {
+        this.letniCas = letniCas;
         this.priloznost = priloznost;
         this.naziv = naziv;
         this.tk_povrhnje = tk_povrhnje;
@@ -61,51 +57,27 @@ public class Kombinacija {
         this.id = id;
     }
 
-    public int getPriloznost() {
+    public String getPriloznost() {
         return priloznost;
     }
 
-    public void setPriloznost(int priloznost) {
+    public void setPriloznost(String priloznost) {
         this.priloznost = priloznost;
     }
 
-    public int getPoletje() {
-        return poletje;
+    public String getLetniCas() {
+        return letniCas;
     }
 
-    public void setPoletje(int poletje) {
-        this.poletje = poletje;
+    public void setLetniCas(String letniCas) {
+        this.letniCas = letniCas;
     }
 
-    public int getPomlad() {
-        return pomlad;
-    }
-
-    public void setPomlad(int pomlad) {
-        this.pomlad = pomlad;
-    }
-
-    public int getZima() {
-        return zima;
-    }
-
-    public void setZima(int zima) {
-        this.zima = zima;
-    }
-
-    public int getJesen() {
-        return jesen;
-    }
-
-    public void setJesen(int jesen) {
-        this.jesen = jesen;
-    }
-
-    public int getNaziv() {
+    public String getNaziv() {
         return naziv;
     }
 
-    public void setNaziv(int naziv) {
+    public void setNaziv(String naziv) {
         this.naziv = naziv;
     }
 
