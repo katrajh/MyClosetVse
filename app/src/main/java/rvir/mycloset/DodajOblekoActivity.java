@@ -1,10 +1,7 @@
 package rvir.mycloset;
 
-import android.Manifest;
 import android.arch.persistence.room.Room;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -12,18 +9,14 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
@@ -62,10 +55,7 @@ public class DodajOblekoActivity extends AppCompatActivity {
                 .allowMainThreadQueries().fallbackToDestructiveMigration()
                 .build();
         //polnjenje spinnerja omar
-
-
         List<Omara> list_omara = db.omaraDao().getAll();
-
 
         list = new ArrayList<>();
 
@@ -113,9 +103,9 @@ public class DodajOblekoActivity extends AppCompatActivity {
         String priloznost = priloznostSpinner.getSelectedItem().toString().toLowerCase();
         oblacilo.setPriloznost(priloznost);
 
-        Spinner pomladJesenSpinner=(Spinner) findViewById(R.id.spinnerPomladJesen);
-        long pomladJesen = pomladJesenSpinner.getSelectedItemId();
-        oblacilo.setPomladJesen((int)pomladJesen);
+        Spinner pomladSpinner=(Spinner) findViewById(R.id.spinnerPomladJesen);
+        long pomlad = pomladSpinner.getSelectedItemId();
+        oblacilo.setPomladInJesen((int)pomlad);
 
         Spinner poletjeSpinner=(Spinner) findViewById(R.id.spinnerPoletje);
         long poletje = poletjeSpinner.getSelectedItemId();
@@ -128,14 +118,9 @@ public class DodajOblekoActivity extends AppCompatActivity {
         Spinner  policaSpinner=(Spinner) findViewById(R.id.spinnerPolica);
         long polica = policaSpinner.getSelectedItemId();
         oblacilo.setTk_polica((int)polica+1);
-        if(oblacilo.getSlika()!=null&&oblacilo.getNaziv()!=""){
-            db.oblaciloDao().insert(oblacilo);
+        db.oblaciloDao().insert(oblacilo);
 
-            startActivity(intent);
-        }else{
-            Toast.makeText(DodajOblekoActivity.this, "Niste vnesli vseh podatkov", Toast.LENGTH_LONG).show();
-        }
-
+        startActivity(intent);
 
     }
     public void dodajSliko(View view) {
@@ -188,9 +173,9 @@ public class DodajOblekoActivity extends AppCompatActivity {
     // iz Bitmap v Imageview
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Bitmap myBitmap = BitmapFactory.decodeFile(mCurrentPhotoPath);
-        setPic();
-        galleryAddPic();
+            Bitmap myBitmap = BitmapFactory.decodeFile(mCurrentPhotoPath);
+            setPic();
+         galleryAddPic();
 
     }
     private File createImageFile() throws IOException {
