@@ -48,7 +48,6 @@ public class Oblacilo {
         this.poletje = poletje;
         this.pomladJesen = pomladJesen;
         this.zima = zima;
-        this.jesen = jesen;
         this.tk_polica = tk_polica;
         this.tk_omara=tk_omara;
     }
