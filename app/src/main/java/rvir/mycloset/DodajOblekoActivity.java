@@ -105,7 +105,7 @@ public class DodajOblekoActivity extends AppCompatActivity {
 
         Spinner pomladSpinner=(Spinner) findViewById(R.id.spinnerPomladJesen);
         long pomlad = pomladSpinner.getSelectedItemId();
-        oblacilo.setPomladInJesen((int)pomlad);
+        oblacilo.setPomladJesen((int)pomlad);
 
         Spinner poletjeSpinner=(Spinner) findViewById(R.id.spinnerPoletje);
         long poletje = poletjeSpinner.getSelectedItemId();

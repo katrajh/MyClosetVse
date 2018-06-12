@@ -37,7 +37,7 @@ public interface OblaciloDao {
     @Query("SELECT * FROM oblacilo WHERE zima = 1 AND priloznost =:pril")
     List<Oblacilo> getAllZima(String pril);
 
-    @Query("SELECT * FROM oblacilo WHERE pomladInJesen = 1 AND priloznost =:pril")
+    @Query("SELECT * FROM oblacilo WHERE pomladJesen = 1 AND priloznost =:pril")
     List<Oblacilo> getAllPomladInJesen(String pril);
 
 
