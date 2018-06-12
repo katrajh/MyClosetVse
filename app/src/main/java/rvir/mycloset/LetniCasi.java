@@ -19,19 +19,17 @@ public class LetniCasi {
     @PrimaryKey
     @ColumnInfo(name = "id_letniCasi")
     private int id;
-    private int pomlad;
+    private int pomladJesen;
     private int poletje;
-    private int jesen;
     private int zima;
 
     public LetniCasi() {
     }
 
-    public LetniCasi(int id, int pomlad, int poletje, int jesen, int zima) {
+    public LetniCasi(int id, int pomladJesen, int poletje, int zima) {
         this.id = id;
-        this.pomlad = pomlad;
+        this.pomladJesen = pomladJesen;
         this.poletje = poletje;
-        this.jesen = jesen;
         this.zima = zima;
     }
 
@@ -43,15 +41,13 @@ public class LetniCasi {
         this.id = id;
     }
 
-    public int getPomlad() {
-        return pomlad;
+    public int getPomladJesen() {
+        return pomladJesen;
     }
 
 
-    public void setPomlad(int pomlad) {
-        this.pomlad=pomlad;
-
-
+    public void setPomladJesen(int pomladJesen) {
+        this.pomladJesen=pomladJesen;
     }
 
     public int getPoletje() {
@@ -60,14 +56,6 @@ public class LetniCasi {
 
     public void setPoletje(int poletje) {
         this.poletje = poletje;
-    }
-
-    public int getJesen() {
-        return jesen;
-    }
-
-    public void setJesen(int jesen) {
-        this.jesen = jesen;
     }
 
     public int getZima() {
