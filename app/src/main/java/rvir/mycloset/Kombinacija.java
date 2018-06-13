@@ -20,11 +20,11 @@ import android.arch.persistence.room.PrimaryKey;
                 @ForeignKey(entity = Oblacilo.class, parentColumns = "id_oblacilo", childColumns = "tk_id_top", onDelete = ForeignKey.CASCADE),
                 @ForeignKey(entity = Oblacilo.class, parentColumns = "id_oblacilo", childColumns = "tk_id_bottom", onDelete = ForeignKey.CASCADE)})
 public class Kombinacija {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id_kombinacija")
     private int id;
 
-    String letniCas;
+    private String letniCas;
     private String priloznost;
     private String naziv;
 

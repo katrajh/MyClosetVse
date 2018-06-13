@@ -11,7 +11,7 @@ import android.content.Context;
  */
 
 
-@Database(entities = {Omara.class, Polica.class, Oblacilo.class, Kombinacija.class, LetniCasi.class},version=8)
+@Database(entities = {Omara.class, Polica.class, Oblacilo.class, Kombinacija.class, LetniCasi.class},version=10)
 public abstract class AppDB extends RoomDatabase {
 
     public abstract OmaraDao omaraDao();
