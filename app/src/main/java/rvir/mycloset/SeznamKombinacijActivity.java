@@ -3,6 +3,7 @@ package rvir.mycloset;
 import android.arch.persistence.room.Room;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -43,16 +44,31 @@ public class SeznamKombinacijActivity extends AppCompatActivity {
                 String nazivK = list_komb.get(i).getNaziv();
                 String prilK = list_komb.get(i).getPriloznost();
                 String letniCasK = list_komb.get(i).getLetniCas();
-                String topK = list_oblacilo.get(list_komb.get(i).getTk_top()).getNaziv();
-                String vrhnjeK = list_oblacilo.get(list_komb.get(i).getTk_povrhnje()).getNaziv();
-                String bottomK = list_oblacilo.get(list_komb.get(i).getTk_bottom()).getNaziv();
+                String vrhnjeK = null;
+                String topK = null;
+                String bottomK = null;
 
-                arrayList.add("Naziv: "+nazivK+"\nPriloznost: "+prilK+"\nVrhnje: "+vrhnjeK+"\nTop: "+topK+"\nBottom: "+bottomK);
+                for (int j=0; j<list_oblacilo.size(); j++) {
+                    if(list_oblacilo.get(j).getId() == list_komb.get(i).getTk_povrhnje()) {
+                        vrhnjeK = list_oblacilo.get(j).getNaziv();
+                    }
+                    if(list_oblacilo.get(j).getId() == list_komb.get(i).getTk_top()) {
+                        topK = list_oblacilo.get(j).getNaziv();
+                    }
+                    if(list_oblacilo.get(j).getId() == list_komb.get(i).getTk_bottom()) {
+                        bottomK = list_oblacilo.get(j).getNaziv();
+                    }
+                }
+
+                Log.w("+++ LOG v shrani", "Vrhnje: "+ vrhnjeK);
+                Log.w("+++ LOG v shrani", "Top: "+ topK);
+                Log.w("+++ LOG v shrani", "Bottom: "+ bottomK);
+
+                arrayList.add("Naziv: "+nazivK+"\nPriloznost: "+prilK+"\nLetni cas: "+letniCasK+"\nVrhnje: "+vrhnjeK+"\nTop: "+topK+"\nBottom: "+bottomK);
                 ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayList);
                 listViewKomb.setAdapter(listAdapter);
             }
         }
-
 
 
     }

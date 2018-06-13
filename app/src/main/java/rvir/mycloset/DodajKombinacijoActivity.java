@@ -13,8 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import java.util.List;
-
 public class DodajKombinacijoActivity extends AppCompatActivity {
 
     AppDB db;
@@ -32,8 +30,10 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
     int idBottom;
 
     // za prenos v inent.putExtra
-    String v_letniCas;
-    String v_kategorija;
+    long v_letniCas;
+    long v_kategorija;
+    String compareValueKat;
+    String compareValueLcas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +46,6 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> adapterKategorija = ArrayAdapter.createFromResource(this, R.array.arrPriloznost, android.R.layout.simple_spinner_item);
         adapterKategorija.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp_kategorija.setAdapter(adapterKategorija);
-
 
 
         //SPINNER za letniCas
@@ -63,15 +62,6 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
                 .allowMainThreadQueries().fallbackToDestructiveMigration()
                 .build();
 
-// testne obleke
-//        db.oblaciloDao().insert(new Oblacilo("picture", "pulover", "top", "vsakdanje", 0, 1, 1, 1, 3));
-//        db.oblaciloDao().insert(new Oblacilo("picture2", "majica rdeca", "top", "vsakdanje", 1, 1, 0, 1, 2));
-//        db.oblaciloDao().insert(new Oblacilo("picture3", "švic majca", "top", "Šport", 1, 1, 0, 1, 1));
-//        db.oblaciloDao().insert(new Oblacilo("picture4", "jeans črne", "bottom", "vsakdanje", 0, 1, 1, 1, 2));
-//        db.oblaciloDao().insert(new Oblacilo("picture5", "usnjena jakna črna", "vrhnje", "vsakdanje", 0, 1, 1, 1, 1));
-//
-//
-
         Bundle bundle = getIntent().getExtras();
 
         if(bundle != null) {
@@ -84,53 +74,27 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
             idTop = bundle.getInt("idTop");
             idBottom = bundle.getInt("idBottom");
 
-            //v_kategorija = bundle.getString("vKat");
-            //v_letniCas = bundle.getString("vLetCas");
+            v_kategorija = bundle.getLong("vKat");
+            v_letniCas = bundle.getLong("vLetCas");
+            compareValueKat = bundle.getString("compareValueKat");
+            compareValueLcas = bundle.getString("compareValueLcas");
 
         }
 
-        v_kategorija = sp_kategorija.getSelectedItem().toString();
-        v_letniCas = sp_letniCas.getSelectedItem().toString();
+        if(compareValueKat != null || compareValueLcas!= null){
+            sp_letniCas.setSelection((int)v_kategorija);
+            sp_letniCas.setSelection((int)v_letniCas);
+        }
 
         Log.w("+++++++++ LOG DodajKomb", "Vrhnje: "+ idVrhnje);
         Log.w("+++++++++ LOG DodajKomb", "Top: "+ idTop);
         Log.w("+++++++++ LOG DodajKomb", "Bottom: "+ idBottom);
         Log.w("+++++++++ LOG DodajKomb", "kategorija: "+ v_kategorija);
         Log.w("+++++++++ LOG DodajKomb", "letni cas: "+ v_letniCas);
+        Log.w("+++++++++ LOG DodajKomb", "compareValueKat: "+ compareValueKat);
+        Log.w("+++++++++ LOG DodajKomb", "compareValueLcas: "+ compareValueLcas);
 
     }
-
-    public void gumb_izberiVrhnje(View view){
-        Intent intent = new Intent(this, SeznamOblekZaKombinacijeActivity.class);
-        intent.putExtra("vGumb", 1);
-        intent.putExtra("vTop", idTop);
-        intent.putExtra("vBottom", idBottom);
-        intent.putExtra("vKat", v_kategorija);
-        intent.putExtra("vLetCas", v_letniCas);
-        startActivity(intent);
-    }
-
-    public void gumb_izberiTop(View view){
-        Intent intent = new Intent(this, SeznamOblekZaKombinacijeActivity.class);
-        intent.putExtra("vGumb", 2);
-        intent.putExtra("vVrhnje", idVrhnje);
-        intent.putExtra("vBottom", idBottom);
-        intent.putExtra("vKat", v_kategorija);
-        intent.putExtra("vLetCas", v_letniCas);
-        startActivity(intent);
-
-    }
-
-    public void gumb_izberiBottom(View view){
-        Intent intent = new Intent(this, SeznamOblekZaKombinacijeActivity.class);
-        intent.putExtra("vGumb", 3);
-        intent.putExtra("vVrhnje", idVrhnje);
-        intent.putExtra("vTop", idTop);
-        intent.putExtra("vKat", v_kategorija);
-        intent.putExtra("vLetCas", v_letniCas);
-        startActivity(intent);
-    }
-
 
     // gumb shrani kombinacijo
 
@@ -152,12 +116,19 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 if(idGumb != 0) {
 
+                    vrednosti(v_kategorija, v_letniCas);
+
                     String nazivK = et_nazivKomb.getText().toString();
-                    String katK = sp_kategorija.getSelectedItem().toString();
-                    String letniCasK = sp_letniCas.getSelectedItem().toString();
+                    String katK = sk;
+                    String letniCasK = sl;
                     int top = idTop;
                     int vrhnje = idVrhnje;
                     int bottom = idBottom;
+
+                    Log.w("+++ LOG v shrani", "Top: "+ top);
+                    Log.w("+++ LOG v shrani", "Vrhnje: "+ vrhnje);
+                    Log.w("+++ LOG v shrani", "Bottom: "+ bottom);
+
 
                     kombinacija.setNaziv(nazivK);
                     kombinacija.setPriloznost(katK);
@@ -181,6 +152,84 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
         builder.setNegativeButton("Ne", null);
         builder.show();
 
+    }
+
+    public void spinnerVrednosti() {
+        v_kategorija = sp_kategorija.getSelectedItemId();
+        v_letniCas = sp_letniCas.getSelectedItemId();
+
+        Log.w("+++++++++ LOG DodajKomb", "long kat: "+ v_kategorija);
+        Log.w("+++++++++ LOG DodajKomb", "long lcas: "+ v_letniCas);
+    }
+
+    public void gumb_izberiVrhnje(View view){
+        spinnerVrednosti();
+        Log.w("+++++++++ LOG DodajKomb", "kategorija: "+ v_kategorija);
+        Log.w("+++++++++ LOG DodajKomb", "letni cas: "+ v_letniCas);
+        Intent intent = new Intent(this, SeznamOblekZaKombinacijeActivity.class);
+        intent.putExtra("vGumb", 1);
+        intent.putExtra("vTop", idTop);
+        intent.putExtra("vBottom", idBottom);
+        intent.putExtra("vKat", v_kategorija);
+        intent.putExtra("vLetCas", v_letniCas);
+        intent.putExtra("vVrhnje", idVrhnje);
+        startActivity(intent);
+        finish();
+    }
+
+    public void gumb_izberiTop(View view){
+        spinnerVrednosti();
+        Intent intent = new Intent(this, SeznamOblekZaKombinacijeActivity.class);
+        intent.putExtra("vGumb", 2);
+        intent.putExtra("vVrhnje", idVrhnje);
+        intent.putExtra("vBottom", idBottom);
+        intent.putExtra("vKat", v_kategorija);
+        intent.putExtra("vLetCas", v_letniCas);
+        intent.putExtra("vTop", idTop);
+        startActivity(intent);
+        finish();
+
+    }
+
+    public void gumb_izberiBottom(View view){
+        spinnerVrednosti();
+        Intent intent = new Intent(this, SeznamOblekZaKombinacijeActivity.class);
+        intent.putExtra("vGumb", 3);
+        intent.putExtra("vVrhnje", idVrhnje);
+        intent.putExtra("vTop", idTop);
+        intent.putExtra("vKat", v_kategorija);
+        intent.putExtra("vLetCas", v_letniCas);
+        intent.putExtra("vBottom", idBottom);
+        startActivity(intent);
+        finish();
+    }
+
+    String sk;
+    String sl;
+    public void vrednosti(long k, long l) {
+
+        if(k == 0) {
+            sk = "Šport";
+        }
+        if(k == 1) {
+            sk = "Vsakdanje";
+        }
+        if(k == 2) {
+            sk = "Zabava";
+        }
+        if(k == 3) {
+            sk = "Obleka";
+        }
+
+        if(l == 0) {
+            sl = "Zima";
+        }
+        if(l == 1) {
+            sl = "Pomlad in jesen";
+        }
+        if(l == 2) {
+            sl = "Poletje";
+        }
     }
 
 }
