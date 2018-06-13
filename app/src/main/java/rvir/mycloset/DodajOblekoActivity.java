@@ -62,10 +62,7 @@ public class DodajOblekoActivity extends AppCompatActivity {
                 .allowMainThreadQueries().fallbackToDestructiveMigration()
                 .build();
         //polnjenje spinnerja omar
-
-
         List<Omara> list_omara = db.omaraDao().getAll();
-
 
         list = new ArrayList<>();
 
@@ -113,13 +110,17 @@ public class DodajOblekoActivity extends AppCompatActivity {
         String priloznost = priloznostSpinner.getSelectedItem().toString().toLowerCase();
         oblacilo.setPriloznost(priloznost);
 
-        Spinner pomladJesenSpinner=(Spinner) findViewById(R.id.spinnerPomladJesen);
-        long pomladJesen = pomladJesenSpinner.getSelectedItemId();
-        oblacilo.setPomladJesen((int)pomladJesen);
+        Spinner pomladSpinner=(Spinner) findViewById(R.id.spinnerPomlad);
+        long pomlad = pomladSpinner.getSelectedItemId();
+        oblacilo.setPomlad((int)pomlad);
 
         Spinner poletjeSpinner=(Spinner) findViewById(R.id.spinnerPoletje);
         long poletje = poletjeSpinner.getSelectedItemId();
         oblacilo.setPoletje((int)poletje);
+
+        Spinner jesenSpinner=(Spinner) findViewById(R.id.spinnerJesen);
+        long jesen = jesenSpinner.getSelectedItemId();
+        oblacilo.setJesen((int)jesen);
 
         Spinner zimaSpinner=(Spinner) findViewById(R.id.spinnerZima);
         long zima = zimaSpinner.getSelectedItemId();
@@ -128,14 +129,9 @@ public class DodajOblekoActivity extends AppCompatActivity {
         Spinner  policaSpinner=(Spinner) findViewById(R.id.spinnerPolica);
         long polica = policaSpinner.getSelectedItemId();
         oblacilo.setTk_polica((int)polica+1);
-        if(oblacilo.getSlika()!=null&&oblacilo.getNaziv()!=""){
-            db.oblaciloDao().insert(oblacilo);
+        db.oblaciloDao().insert(oblacilo);
 
-            startActivity(intent);
-        }else{
-            Toast.makeText(DodajOblekoActivity.this, "Niste vnesli vseh podatkov", Toast.LENGTH_LONG).show();
-        }
-
+        startActivity(intent);
 
     }
     public void dodajSliko(View view) {
@@ -188,9 +184,9 @@ public class DodajOblekoActivity extends AppCompatActivity {
     // iz Bitmap v Imageview
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Bitmap myBitmap = BitmapFactory.decodeFile(mCurrentPhotoPath);
-        setPic();
-        galleryAddPic();
+            Bitmap myBitmap = BitmapFactory.decodeFile(mCurrentPhotoPath);
+            setPic();
+         galleryAddPic();
 
     }
     private File createImageFile() throws IOException {
