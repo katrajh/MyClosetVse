@@ -1,9 +1,11 @@
 package rvir.mycloset;
 
 import android.arch.persistence.room.Room;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -71,5 +73,11 @@ public class SeznamKombinacijActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    public void gumb_dodajNovoKombinacijo(View view) {
+        Intent intent = new Intent(this, DodajKombinacijoActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
