@@ -29,6 +29,18 @@ public interface OblaciloDao {
     @Query("SELECT * FROM oblacilo WHERE naziv LIKE :naziv LIMIT 1")
     List<Oblacilo> findOblaciloByName(String naziv);
 
+    // queriji za kombinacije za letne čase in priloznost
+
+    @Query("SELECT * FROM oblacilo WHERE poletje = 1 AND priloznost =:pril")
+    List<Oblacilo> getAllPoletje(String pril);
+
+    @Query("SELECT * FROM oblacilo WHERE zima = 1 AND priloznost =:pril")
+    List<Oblacilo> getAllZima(String pril);
+
+    @Query("SELECT * FROM oblacilo WHERE pomladJesen = 1 AND priloznost =:pril")
+    List<Oblacilo> getAllPomladInJesen(String pril);
+
+
     @Insert
     void insert(Oblacilo oblacilo);
 

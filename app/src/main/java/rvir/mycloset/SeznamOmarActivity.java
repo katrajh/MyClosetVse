@@ -89,13 +89,6 @@ public class SeznamOmarActivity extends AppCompatActivity implements PopUpDialog
 
                 List<Omara> listo = db.omaraDao().getAll();
 
-                /*
-                Log.w("LOG", "position: "+pos+", Selected: "+selected);
-                Log.w("LOG", "position: "+pos+", pos: "+pos);
-                Log.w("LOG", "position: "+pos+", id: "+listo.get(i).getId());
-                Log.w("LOG", "position: "+pos+", nativ: "+listo.get(i).getNaziv());
-                */
-
                 int idO = listo.get(i).getId();
                 String nazivO = listo.get(i).getNaziv();
 

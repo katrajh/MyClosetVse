@@ -100,7 +100,7 @@ public class UrejanjePoliceActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                String idOb = ""+list_oblacila.get(i).getId();
+                int idOb = list_oblacila.get(i).getId();
 
                 Log.w("LOG", "IdOblacilo: "+idOb);
 
@@ -120,7 +120,10 @@ public class UrejanjePoliceActivity extends AppCompatActivity {
             public void onClick(View view) {
                 db.policaDao().deleteOne(v_idP);
 
-                startActivity(new Intent(getApplicationContext(), SeznamPolicActivity.class));
+                Intent intent = new Intent(getApplicationContext(), SeznamPolicActivity.class);
+                intent.putExtra("idO", v_tkIdO);
+
+                startActivity(intent);
                 finish();
             }
         });
@@ -156,7 +159,9 @@ public class UrejanjePoliceActivity extends AppCompatActivity {
 
                     Intent intent = new Intent(getApplicationContext(), SeznamPolicActivity.class);
                     intent.putExtra("idO", v_tkIdO);
+
                     startActivity(intent);
+
                     finish();
                 }
             }

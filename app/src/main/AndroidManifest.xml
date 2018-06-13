@@ -42,7 +42,9 @@
         </provider>
 
         <activity android:name=".UrejanjePoliceActivity" />
-        <activity android:name=".UrejanjeOblacilaActivity"></activity>
+        <activity android:name=".UrejanjeOblacilaActivity" />
+        <activity android:name=".SeznamKombinacijActivity" />
+        <activity android:name=".SeznamOblekZaKombinacijeActivity"></activity>
     </application>
 
 </manifest>

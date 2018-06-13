@@ -12,7 +12,11 @@ public class UrejanjeOblacilaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_urejanje_oblacila);
 
-        v_idOblacila = Integer.parseInt(getIntent().getStringExtra("idOb"));
+        Bundle bundle = getIntent().getExtras();
+
+        if(bundle != null) {
+            v_idOblacila = bundle.getInt("idOb");
+        }
 
     }
 }
