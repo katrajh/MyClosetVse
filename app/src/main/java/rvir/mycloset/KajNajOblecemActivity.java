@@ -19,6 +19,8 @@ import java.util.List;
 public class KajNajOblecemActivity extends AppCompatActivity {
     Document doc;
     int intTemp;
+    AppDB db;
+    List<Kombinacija> kombinacije;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +65,16 @@ public class KajNajOblecemActivity extends AppCompatActivity {
         //priloznost
         Spinner spinnerPriloznost = findViewById(R.id.spinnerPriloznost);
         String priloznost= spinnerPriloznost.getSelectedItem().toString();
+        String letniCas;
+        if(intTemp<8){
+            letniCas="zima";
+        }else if(intTemp>20){
+            letniCas="poletje";
+        }else{
+            letniCas="pomladJesen";
+        }
+        kombinacije=db.kombinacijaDao().findbypriloznostLetniCas(letniCas,priloznost);
+
 
 
     }

@@ -26,6 +26,9 @@ public interface KombinacijaDao {
     @Query("SELECT * FROM kombinacija WHERE naziv LIKE :naziv LIMIT 1")
     List<Kombinacija> findKombByName(String naziv);
 
+    @Query("SELECT * FROM kombinacija WHERE letniCas LIKE :letniCas AND priloznost LIKE :priloznost")
+    List<Kombinacija> findbypriloznostLetniCas(String letniCas, String priloznost);
+
     @Insert
     void insertAll(Kombinacija kombinacija);
 
