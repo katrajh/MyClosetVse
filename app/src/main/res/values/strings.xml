@@ -8,7 +8,7 @@
 
 
     <string name="sDodajSliko">Dodaj sliko</string>
-    <string name="sNaziv">Naziv:</string>
+    <string name="sNaziv">Naziv</string>
     <string name="sVrsta">Vrsta:</string>
     <string-array name="arrVrsta">
         <item>Top</item>
@@ -47,7 +47,7 @@
     <string name="sKapacitetaPolice">Kapaciteta police</string>
 
     <string name="sShrani">Shrani</string>
-    
+
     <!--  Activity DodajKombinacijoActivity -->
     <string name="sIzberiKategorijo">Izberi kategorijo: </string>
     <string name="sVrhnja">Vrhnja:</string>
@@ -61,6 +61,11 @@
         <item>Pomlad in jesen</item>
         <item>Poletje</item>
     </string-array>
+
+    <!--  Activity KajNajOblecemActivity -->
+    <string name="sTemperatura">Temparatura:</string>
+    <string name="sTemperaturaObvestilo">Prikazane bodo samo obleke primerne ob tej temparaturi</string>
+    <string name="sGumbIsci">Poišči primerno kombinacijo</string>
 
 
 </resources>
