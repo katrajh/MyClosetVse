@@ -4,6 +4,8 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Created by Eva on 19.3.2018.
@@ -19,7 +21,7 @@ import android.arch.persistence.room.PrimaryKey;
         foreignKeys = {@ForeignKey(entity = Oblacilo.class, parentColumns = "id_oblacilo", childColumns = "tk_id_povrhnje", onDelete = ForeignKey.CASCADE),
                 @ForeignKey(entity = Oblacilo.class, parentColumns = "id_oblacilo", childColumns = "tk_id_top", onDelete = ForeignKey.CASCADE),
                 @ForeignKey(entity = Oblacilo.class, parentColumns = "id_oblacilo", childColumns = "tk_id_bottom", onDelete = ForeignKey.CASCADE)})
-public class Kombinacija {
+public class Kombinacija implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id_kombinacija")
     private int id;
@@ -48,6 +50,28 @@ public class Kombinacija {
         this.tk_top = tk_top;
         this.tk_bottom = tk_bottom;
     }
+
+    protected Kombinacija(Parcel in) {
+        id = in.readInt();
+        letniCas = in.readString();
+        priloznost = in.readString();
+        naziv = in.readString();
+        tk_povrhnje = in.readInt();
+        tk_top = in.readInt();
+        tk_bottom = in.readInt();
+    }
+
+    public static final Creator<Kombinacija> CREATOR = new Creator<Kombinacija>() {
+        @Override
+        public Kombinacija createFromParcel(Parcel in) {
+            return new Kombinacija(in);
+        }
+
+        @Override
+        public Kombinacija[] newArray(int size) {
+            return new Kombinacija[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -103,5 +127,21 @@ public class Kombinacija {
 
     public void setTk_bottom(int tk_bottom) {
         this.tk_bottom = tk_bottom;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(letniCas);
+        dest.writeString(priloznost);
+        dest.writeString(naziv);
+        dest.writeInt(tk_povrhnje);
+        dest.writeInt(tk_top);
+        dest.writeInt(tk_bottom);
     }
 }

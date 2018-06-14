@@ -23,7 +23,7 @@ public interface OmaraDao {
     Cursor getOmaraCursor();
 
     @Query("SELECT * FROM omara WHERE id_omara IN (:omaraId)")
-    List<Omara> getOmaraById(int omaraId);
+    Omara getOmaraById(int omaraId);
 
     @Query("SELECT * FROM omara WHERE naziv_omare LIKE :naziv LIMIT 1")
     List<Omara> findOmaraByName(String naziv);

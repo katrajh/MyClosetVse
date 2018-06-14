@@ -1,7 +1,10 @@
 package rvir.mycloset;
 
+import android.arch.persistence.room.Room;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -11,20 +14,28 @@ import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.List;
 
 public class KajNajOblecemActivity extends AppCompatActivity {
     Document doc;
     int intTemp;
     AppDB db;
-    List<Kombinacija> kombinacije;
+    List<Kombinacija> kombinacijeList;
+    ArrayList<Kombinacija> kombinacije;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kaj_naj_oblecem);
+        db = Room.databaseBuilder(getApplicationContext(),AppDB.class, "rvir")
+                .allowMainThreadQueries().fallbackToDestructiveMigration()
+                .build();
+
+
 
         TextView temperatura=findViewById(R.id.textTemparatura);
 
@@ -63,19 +74,25 @@ public class KajNajOblecemActivity extends AppCompatActivity {
         }
 
         //priloznost
+
+
+
+
+    }
+    public void isci(View view){
+        Intent intent = new Intent(this, KajNajOblecemSeznamActivity.class);
         Spinner spinnerPriloznost = findViewById(R.id.spinnerPriloznost);
         String priloznost= spinnerPriloznost.getSelectedItem().toString();
         String letniCas;
         if(intTemp<8){
-            letniCas="zima";
+            letniCas="Zima";
         }else if(intTemp>20){
-            letniCas="poletje";
+            letniCas="Poletje";
         }else{
-            letniCas="pomladJesen";
+            letniCas="Pomlad in jesen";
         }
-        kombinacije=db.kombinacijaDao().findbypriloznostLetniCas(letniCas,priloznost);
-
-
-
+        kombinacije=(ArrayList<Kombinacija>)db.kombinacijaDao().findbypriloznostLetniCas("Poletje",priloznost);
+        intent.putParcelableArrayListExtra("kombinacije",kombinacije);
+        startActivity(intent);
     }
 }

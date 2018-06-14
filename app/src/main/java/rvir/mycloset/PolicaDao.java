@@ -19,10 +19,13 @@ public interface PolicaDao {
     List<Polica> getAll();
 
     @Query("SELECT * FROM polica WHERE id_polica =:policaId AND tk_id_omara =:tk_idO")
-    List<Polica> getPolicaById(int policaId, int tk_idO);
+    Polica getPolicaById(int policaId, int tk_idO);
 
     @Query("SELECT * FROM polica WHERE tk_id_omara=:omaraId")
     List<Polica> getAllIstaOmara(final int omaraId);
+
+    @Query("SELECT id_polica FROM polica WHERE polica_naziv LIKE :naziv LIMIT 1")
+    int findIdPolicaByName(String naziv);
 
     @Insert
     void insert(Polica polica);

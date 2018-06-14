@@ -56,7 +56,7 @@
     <string name="sIzberi">Izberi</string>
     <string name="sNazivKomb">Naziv kombinacije</string>
     <string name="sLetniCasKomb">Letni čas:</string>
-    <string-array name="arr_letniCasiKomb" >
+    <string-array name="arr_letniCasiKomb">
         <item>Zima</item>
         <item>Pomlad in jesen</item>
         <item>Poletje</item>
