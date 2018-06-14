@@ -120,6 +120,7 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
 
         List<Oblacilo> oblaciloList = db.oblaciloDao().getAll();
 
+        Log.w("LOG blacilo", "oblaciloList.size: "+oblaciloList.size());
         for (int i=0; i<oblaciloList.size(); i++) {
             Log.w("LOG v for oblacilo", "v for");
             if(oblaciloList.get(i).getId() == idTop && oblaciloList.get(i).getVrsta() == "obleka") {
@@ -308,7 +309,7 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
                 .cacheOnDisk(true).cacheInMemory(true)
                 .imageScaleType(ImageScaleType.EXACTLY)
-                .displayer(new FadeInBitmapDisplayer(300)).build();
+                .displayer(new FadeInBitmapDisplayer(200)).build();
 
         ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(getApplicationContext())
                 .defaultDisplayImageOptions(defaultOptions)
