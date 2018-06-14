@@ -27,6 +27,9 @@ public class Kombinacija {
     private String letniCas;
     private String priloznost;
     private String naziv;
+    private String slikaTop;
+    private String slikaVrhnje;
+    private String slikaBottom;
 
     @ColumnInfo(name = "tk_id_povrhnje")
     private int tk_povrhnje;
@@ -40,10 +43,13 @@ public class Kombinacija {
     public Kombinacija() {
     }
 
-    public Kombinacija(String letniCas, String priloznost, String naziv, int tk_povrhnje, int tk_top, int tk_bottom) {
+    public Kombinacija(String letniCas, String priloznost, String naziv, String slikaTop, String slikaVrhnje, String slikaBottom, int tk_povrhnje, int tk_top, int tk_bottom) {
         this.letniCas = letniCas;
         this.priloznost = priloznost;
         this.naziv = naziv;
+        this.slikaTop = slikaTop;
+        this.slikaVrhnje = slikaVrhnje;
+        this.slikaBottom = slikaBottom;
         this.tk_povrhnje = tk_povrhnje;
         this.tk_top = tk_top;
         this.tk_bottom = tk_bottom;
@@ -79,6 +85,30 @@ public class Kombinacija {
 
     public void setNaziv(String naziv) {
         this.naziv = naziv;
+    }
+
+    public String getSlikaTop() {
+        return slikaTop;
+    }
+
+    public void setSlikaTop(String slikaTop) {
+        this.slikaTop = slikaTop;
+    }
+
+    public String getSlikaVrhnje() {
+        return slikaVrhnje;
+    }
+
+    public void setSlikaVrhnje(String slikaVrhnje) {
+        this.slikaVrhnje = slikaVrhnje;
+    }
+
+    public String getSlikaBottom() {
+        return slikaBottom;
+    }
+
+    public void setSlikaBottom(String slikaBottom) {
+        this.slikaBottom = slikaBottom;
     }
 
     public int getTk_povrhnje() {

@@ -11,7 +11,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
+
+import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 public class DodajKombinacijoActivity extends AppCompatActivity {
 
@@ -20,6 +28,10 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
 
     Spinner sp_kategorija;
     Spinner sp_letniCas;
+
+    ImageView imgViewVrhnje;
+    ImageView imgViewTop;
+    ImageView imgViewBottom;
 
     EditText et_nazivKomb;
 
@@ -35,14 +47,19 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
     String compareValueKat;
     String compareValueLcas;
 
+    String imgVrhnjeUrl;
+    String imgTopUrl;
+    String imgBottomUrl;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dodaj_kombinacijo);
 
+        setupImageLoader();
+
         // SPINNER za kategorijo
         sp_kategorija = (Spinner) findViewById(R.id.spinner_kategorija);
-
         ArrayAdapter<CharSequence> adapterKategorija = ArrayAdapter.createFromResource(this, R.array.arrPriloznost, android.R.layout.simple_spinner_item);
         adapterKategorija.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp_kategorija.setAdapter(adapterKategorija);
@@ -50,13 +67,15 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
 
         //SPINNER za letniCas
         sp_letniCas = (Spinner) findViewById(R.id.spinner_kombLetniCas);
-
         ArrayAdapter<CharSequence> adapterLetniCas = ArrayAdapter.createFromResource(this, R.array.arr_letniCasiKomb, android.R.layout.simple_spinner_item);
         adapterLetniCas.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp_letniCas.setAdapter(adapterLetniCas);
 
-
         et_nazivKomb = (EditText) findViewById(R.id.et_kombNaziv);
+
+        imgViewVrhnje = (ImageView) findViewById(R.id.img_vrhnje);
+        imgViewTop = (ImageView) findViewById(R.id.img_top);
+        imgViewBottom = (ImageView) findViewById(R.id.img_bottom);
 
         db = Room.databaseBuilder(getApplicationContext(),AppDB.class, "rvir")
                 .allowMainThreadQueries().fallbackToDestructiveMigration()
@@ -79,12 +98,31 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
             compareValueKat = bundle.getString("compareValueKat");
             compareValueLcas = bundle.getString("compareValueLcas");
 
+            imgVrhnjeUrl = bundle.getString("imgVrhnjeUrl");
+            imgTopUrl = bundle.getString("imgTopUrl");
+            imgBottomUrl = bundle.getString("imgBottomUrl");
+
         }
 
         if(compareValueKat != null || compareValueLcas!= null){
-            sp_letniCas.setSelection((int)v_kategorija);
+            sp_kategorija.setSelection((int)v_kategorija);
             sp_letniCas.setSelection((int)v_letniCas);
         }
+
+
+        ImageLoader imageLoader = ImageLoader.getInstance();
+
+        int defaultImage = getApplicationContext().getResources().getIdentifier("@drawable/image_failed", null, getApplication().getPackageName());
+
+        DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
+                .cacheOnDisk(true).resetViewBeforeLoading(true)
+                .showImageForEmptyUri(defaultImage)
+                .showImageOnFail(defaultImage)
+                .showImageOnLoading(defaultImage).build();
+
+        imageLoader.displayImage(imgVrhnjeUrl, imgViewVrhnje, options);
+        imageLoader.displayImage(imgTopUrl, imgViewTop, options);
+        imageLoader.displayImage(imgBottomUrl, imgViewBottom, options);
 
         Log.w("+++++++++ LOG DodajKomb", "Vrhnje: "+ idVrhnje);
         Log.w("+++++++++ LOG DodajKomb", "Top: "+ idTop);
@@ -136,6 +174,9 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
                     kombinacija.setTk_top(top);
                     kombinacija.setTk_povrhnje(vrhnje);
                     kombinacija.setTk_bottom(bottom);
+                    kombinacija.setSlikaVrhnje(imgVrhnjeUrl);
+                    kombinacija.setSlikaTop(imgTopUrl);
+                    kombinacija.setSlikaBottom(imgBottomUrl);
 
                     db.kombinacijaDao().insertAll(kombinacija);
 
@@ -174,7 +215,6 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
         intent.putExtra("vLetCas", v_letniCas);
         intent.putExtra("vVrhnje", idVrhnje);
         startActivity(intent);
-        finish();
     }
 
     public void gumb_izberiTop(View view){
@@ -187,7 +227,6 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
         intent.putExtra("vLetCas", v_letniCas);
         intent.putExtra("vTop", idTop);
         startActivity(intent);
-        finish();
 
     }
 
@@ -201,7 +240,6 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
         intent.putExtra("vLetCas", v_letniCas);
         intent.putExtra("vBottom", idBottom);
         startActivity(intent);
-        finish();
     }
 
     String sk;
@@ -222,14 +260,29 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
         }
 
         if(l == 0) {
-            sl = "Zima";
+            sl = "Poletje";
         }
-        if(l == 1) {
+        if(l== 1) {
             sl = "Pomlad in jesen";
         }
         if(l == 2) {
-            sl = "Poletje";
+            sl = "Zima";
         }
+    }
+
+
+    private void setupImageLoader() {
+        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+                .cacheOnDisk(true).cacheInMemory(true)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .displayer(new FadeInBitmapDisplayer(300)).build();
+
+        ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(getApplicationContext())
+                .defaultDisplayImageOptions(defaultOptions)
+                .memoryCache(new WeakMemoryCache())
+                .diskCacheSize(100 * 1024 * 1024).build();
+
+        ImageLoader.getInstance().init(configuration);
     }
 
 }
