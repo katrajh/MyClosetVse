@@ -38,14 +38,23 @@ public interface OblaciloDao {
 
     // queriji za kombinacije za letne čase in priloznost
 
-    @Query("SELECT * FROM oblacilo WHERE poletje IN (1,2) AND priloznost =:pril")
-    List<Oblacilo> getAllPoletje(String pril);
+    @Query("SELECT * FROM oblacilo WHERE poletje IN (1,2) AND priloznost =:pril AND (vrsta = 'top' OR vrsta='obleka')")
+    List<Oblacilo> getAllPoletjeTopObleka(String pril);
 
-    @Query("SELECT * FROM oblacilo WHERE zima IN (1,2) AND priloznost =:pril")
-    List<Oblacilo> getAllZima(String pril);
+    @Query("SELECT * FROM oblacilo WHERE zima IN (1,2) AND priloznost =:pril AND (vrsta = 'top' OR vrsta='obleka')")
+    List<Oblacilo> getAllZimaTopObleka(String pril);
 
-    @Query("SELECT * FROM oblacilo WHERE pomladJesen IN (1,2) AND priloznost =:pril")
-    List<Oblacilo> getAllPomladInJesen(String pril);
+    @Query("SELECT * FROM oblacilo WHERE pomladJesen IN (1,2) AND priloznost =:pril AND (vrsta = 'top' OR vrsta='obleka')")
+    List<Oblacilo> getAllPomladInJesenTopObleka(String pril);
+
+    @Query("SELECT * FROM oblacilo WHERE poletje IN (1,2) AND priloznost =:pril AND vrsta=:vrstaObl")
+    List<Oblacilo> getAllPoletjeOstalo(String pril, String vrstaObl);
+
+    @Query("SELECT * FROM oblacilo WHERE zima IN (1,2) AND priloznost =:pril AND vrsta=:vrstaObl")
+    List<Oblacilo> getAllZimaOstalo(String pril, String vrstaObl);
+
+    @Query("SELECT * FROM oblacilo WHERE pomladJesen IN (1,2) AND priloznost =:pril AND vrsta=:vrstaObl")
+    List<Oblacilo> getAllPomladInJesenOstalo(String pril, String vrstaObl);
 
 
     @Insert

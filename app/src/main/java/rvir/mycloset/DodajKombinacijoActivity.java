@@ -5,11 +5,13 @@ import android.app.AlertDialog;
 import android.arch.persistence.room.Room;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -20,6 +22,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+
+import java.util.List;
 
 public class DodajKombinacijoActivity extends AppCompatActivity {
 
@@ -34,6 +38,10 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
     ImageView imgViewBottom;
 
     EditText et_nazivKomb;
+
+    Button btnIzberiTop;
+    Button btnIzberiVrhnje;
+    Button btnIzberiBottom;
 
     // za izbor oblek (vrhnje, top, bottom)
     int idGumb;
@@ -51,12 +59,12 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
     String imgTopUrl;
     String imgBottomUrl;
 
+    String vrstaOblacila;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dodaj_kombinacijo);
-
-        setupImageLoader();
 
         // SPINNER za kategorijo
         sp_kategorija = (Spinner) findViewById(R.id.spinner_kategorija);
@@ -73,9 +81,13 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
 
         et_nazivKomb = (EditText) findViewById(R.id.et_kombNaziv);
 
-        imgViewVrhnje = (ImageView) findViewById(R.id.img_vrhnje);
-        imgViewTop = (ImageView) findViewById(R.id.img_top);
+        imgViewVrhnje = (ImageView) findViewById(R.id.img_top);
+        imgViewTop = (ImageView) findViewById(R.id.img_vrhnje);
         imgViewBottom = (ImageView) findViewById(R.id.img_bottom);
+
+        btnIzberiTop = (Button) findViewById(R.id.btn_kombVrhnja);
+        btnIzberiVrhnje = (Button) findViewById(R.id.btn_kombTop);
+        btnIzberiBottom = (Button) findViewById(R.id.btn_kombBottom);
 
         db = Room.databaseBuilder(getApplicationContext(),AppDB.class, "rvir")
                 .allowMainThreadQueries().fallbackToDestructiveMigration()
@@ -102,6 +114,20 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
             imgTopUrl = bundle.getString("imgTopUrl");
             imgBottomUrl = bundle.getString("imgBottomUrl");
 
+            vrstaOblacila = bundle.getString("vrstaOblacila");
+
+        }
+
+        List<Oblacilo> oblaciloList = db.oblaciloDao().getAll();
+
+        for (int i=0; i<oblaciloList.size(); i++) {
+            Log.w("LOG v for oblacilo", "v for");
+            if(oblaciloList.get(i).getId() == idTop && oblaciloList.get(i).getVrsta() == "obleka") {
+                Log.w("LOG v for oblacilo", "v for if PRED");
+                btnIzberiBottom.setEnabled(false);
+                btnIzberiBottom.setClickable(false);
+                Log.w("LOG v for oblacilo", "v for if ZA");
+            }
         }
 
         if(compareValueKat != null || compareValueLcas!= null){
@@ -109,20 +135,20 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
             sp_letniCas.setSelection((int)v_letniCas);
         }
 
+        imgViewTop= (ImageView) findViewById(R.id.img_top);
+        imgViewVrhnje= (ImageView) findViewById(R.id.img_vrhnje);
+        imgViewBottom= (ImageView) findViewById(R.id.img_bottom);
 
-        ImageLoader imageLoader = ImageLoader.getInstance();
+        if(imgTopUrl != null) {
+            imgViewTop.setImageURI(Uri.parse(imgTopUrl));
+        }
+        if(imgVrhnjeUrl != null) {
+            imgViewVrhnje.setImageURI(Uri.parse(imgVrhnjeUrl));
+        }
+        if(imgBottomUrl != null) {
+            imgViewBottom.setImageURI(Uri.parse(imgBottomUrl));
+        }
 
-        int defaultImage = getApplicationContext().getResources().getIdentifier("@drawable/image_failed", null, getApplication().getPackageName());
-
-        DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
-                .cacheOnDisk(true).resetViewBeforeLoading(true)
-                .showImageForEmptyUri(defaultImage)
-                .showImageOnFail(defaultImage)
-                .showImageOnLoading(defaultImage).build();
-
-        imageLoader.displayImage(imgVrhnjeUrl, imgViewVrhnje, options);
-        imageLoader.displayImage(imgTopUrl, imgViewTop, options);
-        imageLoader.displayImage(imgBottomUrl, imgViewBottom, options);
 
         Log.w("+++++++++ LOG DodajKomb", "Vrhnje: "+ idVrhnje);
         Log.w("+++++++++ LOG DodajKomb", "Top: "+ idTop);
@@ -131,6 +157,9 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
         Log.w("+++++++++ LOG DodajKomb", "letni cas: "+ v_letniCas);
         Log.w("+++++++++ LOG DodajKomb", "compareValueKat: "+ compareValueKat);
         Log.w("+++++++++ LOG DodajKomb", "compareValueLcas: "+ compareValueLcas);
+        Log.w("+++++++++ LOG DodajKomb", "imgTop: "+ imgTopUrl);
+        Log.w("+++++++++ LOG DodajKomb", "imgVrhnje: "+ imgVrhnjeUrl);
+        Log.w("+++++++++ LOG DodajKomb", "imgBottom: "+ imgBottomUrl);
 
     }
 
@@ -174,9 +203,6 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
                     kombinacija.setTk_top(top);
                     kombinacija.setTk_povrhnje(vrhnje);
                     kombinacija.setTk_bottom(bottom);
-                    kombinacija.setSlikaVrhnje(imgVrhnjeUrl);
-                    kombinacija.setSlikaTop(imgTopUrl);
-                    kombinacija.setSlikaBottom(imgBottomUrl);
 
                     db.kombinacijaDao().insertAll(kombinacija);
 
@@ -199,8 +225,22 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
         v_kategorija = sp_kategorija.getSelectedItemId();
         v_letniCas = sp_letniCas.getSelectedItemId();
 
-        Log.w("+++++++++ LOG DodajKomb", "long kat: "+ v_kategorija);
-        Log.w("+++++++++ LOG DodajKomb", "long lcas: "+ v_letniCas);
+    }
+
+    public void gumb_izberiTop(View view){
+        spinnerVrednosti();
+        Intent intent = new Intent(this, SeznamOblekZaKombinacijeActivity.class);
+        intent.putExtra("vGumb", 1);
+        intent.putExtra("vVrhnje", idVrhnje);
+        intent.putExtra("vBottom", idBottom);
+        intent.putExtra("vKat", v_kategorija);
+        intent.putExtra("vLetCas", v_letniCas);
+        intent.putExtra("vTop", idTop);
+        intent.putExtra("imgTopUrl", imgTopUrl);
+        intent.putExtra("imgVrhnjeUrl", imgVrhnjeUrl);
+        intent.putExtra("imgBottomUrl", imgBottomUrl);
+        startActivity(intent);
+
     }
 
     public void gumb_izberiVrhnje(View view){
@@ -208,26 +248,16 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
         Log.w("+++++++++ LOG DodajKomb", "kategorija: "+ v_kategorija);
         Log.w("+++++++++ LOG DodajKomb", "letni cas: "+ v_letniCas);
         Intent intent = new Intent(this, SeznamOblekZaKombinacijeActivity.class);
-        intent.putExtra("vGumb", 1);
-        intent.putExtra("vTop", idTop);
-        intent.putExtra("vBottom", idBottom);
-        intent.putExtra("vKat", v_kategorija);
-        intent.putExtra("vLetCas", v_letniCas);
-        intent.putExtra("vVrhnje", idVrhnje);
-        startActivity(intent);
-    }
-
-    public void gumb_izberiTop(View view){
-        spinnerVrednosti();
-        Intent intent = new Intent(this, SeznamOblekZaKombinacijeActivity.class);
         intent.putExtra("vGumb", 2);
-        intent.putExtra("vVrhnje", idVrhnje);
+        intent.putExtra("vTop", idTop);
         intent.putExtra("vBottom", idBottom);
         intent.putExtra("vKat", v_kategorija);
         intent.putExtra("vLetCas", v_letniCas);
-        intent.putExtra("vTop", idTop);
+        intent.putExtra("vVrhnje", idVrhnje);
+        intent.putExtra("imgTopUrl", imgTopUrl);
+        intent.putExtra("imgVrhnjeUrl", imgVrhnjeUrl);
+        intent.putExtra("imgBottomUrl", imgBottomUrl);
         startActivity(intent);
-
     }
 
     public void gumb_izberiBottom(View view){
@@ -239,6 +269,9 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
         intent.putExtra("vKat", v_kategorija);
         intent.putExtra("vLetCas", v_letniCas);
         intent.putExtra("vBottom", idBottom);
+        intent.putExtra("imgTopUrl", imgTopUrl);
+        intent.putExtra("imgVrhnjeUrl", imgVrhnjeUrl);
+        intent.putExtra("imgBottomUrl", imgBottomUrl);
         startActivity(intent);
     }
 

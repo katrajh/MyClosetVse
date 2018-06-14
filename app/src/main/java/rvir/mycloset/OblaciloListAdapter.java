@@ -2,6 +2,7 @@ package rvir.mycloset;
 
 import android.content.Context;
 import android.media.Image;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,9 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
+import org.w3c.dom.Text;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +28,7 @@ import io.reactivex.annotations.NonNull;
 public class OblaciloListAdapter extends ArrayAdapter<Oblacilo> {
 
     private List<CreateList> galleryList;
+    ArrayList<Oblacilo> oblacila;
 
     Context context;
     int resource;
@@ -38,6 +43,7 @@ public class OblaciloListAdapter extends ArrayAdapter<Oblacilo> {
         super(context, resource, objects);
         this.context = context;
         this.resource = resource;
+        this.oblacila = objects;
     }
 
     @NonNull
@@ -53,27 +59,41 @@ public class OblaciloListAdapter extends ArrayAdapter<Oblacilo> {
 
         ViewHolder holder;
 
-        LayoutInflater inflater = LayoutInflater.from(context);
-        convertView = inflater.inflate(resource, parent, false);
         holder = new ViewHolder();
-        holder.naziv = (TextView) convertView.findViewById(R.id.tv_soNaziv);
-        holder.vrsta = (TextView) convertView.findViewById(R.id.tv_soVrsta);
-        holder.img = (ImageView) convertView.findViewById(R.id.img_soSlika);
 
-        ImageLoader imageLoader = ImageLoader.getInstance();
+        if(convertView == null) {
+            LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = mInflater.inflate(R.layout.single_list_item, parent, false);
+            holder.naziv = (TextView)convertView.findViewById(R.id.tv_soNaziv);
+            holder.vrsta = (TextView)convertView.findViewById(R.id.tv_soVrsta);
+            holder.img = (ImageView) convertView.findViewById(R.id.img_soSlika);
+            convertView.setTag(holder);
+        }
+        else {
+            holder = (ViewHolder) convertView.getTag();
+        }
 
-        int defaultImage = context.getResources().getIdentifier("@drawable/image_failed", null, context.getPackageName());
-
-        DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
-                .cacheOnDisk(true).resetViewBeforeLoading(true)
-                .showImageForEmptyUri(defaultImage)
-                .showImageOnFail(defaultImage)
-                .showImageOnLoading(defaultImage).build();
-
-        imageLoader.displayImage(imgUrl, holder.img, options);
-
+//        LayoutInflater inflater = LayoutInflater.from(context);
+//        convertView = inflater.inflate(resource, parent, false);
+//        holder = new ViewHolder();
+//        holder.naziv = (TextView) convertView.findViewById(R.id.tv_soNaziv);
+//        holder.vrsta = (TextView) convertView.findViewById(R.id.tv_soVrsta);
+//        holder.img = (ImageView) convertView.findViewById(R.id.img_soSlika);
+//
+//        ImageLoader imageLoader = ImageLoader.getInstance();
+//
+//        int defaultImage = context.getResources().getIdentifier("@drawable/image_failed", null, context.getPackageName());
+//
+//        DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
+//                .cacheOnDisk(true).resetViewBeforeLoading(true)
+//                .showImageForEmptyUri(defaultImage)
+//                .showImageOnFail(defaultImage)
+//                .showImageOnLoading(defaultImage).build();
+//
+//        imageLoader.displayImage(imgUrl, holder.img, options);
         holder.naziv.setText(naziv);
         holder.vrsta.setText(vrsta);
+        holder.img.setImageURI(Uri.parse(oblacila.get(position).getSlika()));
 
         return convertView;
     }

@@ -87,7 +87,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
-        android:text="@string/sVrhnja"
+        android:text="@string/sTop"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -105,14 +105,14 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="@string/sTop"
+        android:text="@string/sVrhnja"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_vrhnje" />
+        app:layout_constraintTop_toBottomOf="@+id/img_top" />
 
     <TextView
         android:id="@+id/tv_kombBottom"
@@ -130,10 +130,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_top" />
+        app:layout_constraintTop_toBottomOf="@+id/img_vrhnje" />
 
     <ImageView
-        android:id="@+id/img_vrhnje"
+        android:id="@+id/img_top"
         android:layout_width="95dp"
         android:layout_height="95dp"
         android:layout_marginEnd="8dp"
@@ -148,18 +148,18 @@
         app:srcCompat="@mipmap/ic_launcher" />
 
     <ImageView
-        android:id="@+id/img_top"
+        android:id="@+id/img_vrhnje"
         android:layout_width="95dp"
         android:layout_height="95dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginLeft="60dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginStart="60dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.155"
         app:layout_constraintStart_toEndOf="@+id/tv_kombTop"
-        app:layout_constraintTop_toBottomOf="@+id/img_vrhnje"
+        app:layout_constraintTop_toBottomOf="@+id/img_top"
         app:srcCompat="@mipmap/ic_launcher" />
 
     <ImageView
@@ -172,11 +172,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.16"
         app:layout_constraintStart_toEndOf="@+id/tv_kombBottom"
-        app:layout_constraintTop_toBottomOf="@+id/img_top"
+        app:layout_constraintTop_toBottomOf="@+id/img_vrhnje"
         app:srcCompat="@mipmap/ic_launcher" />
 
     <Button
-        android:id="@+id/btn_kombVrhnja"
+        android:id="@+id/btn_kombTop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -185,15 +185,15 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="44dp"
         android:background="@color/bluelight"
-        android:onClick="gumb_izberiVrhnje"
+        android:onClick="gumb_izberiTop"
         android:text="@string/sIzberi"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.35"
-        app:layout_constraintStart_toEndOf="@+id/img_vrhnje"
+        app:layout_constraintStart_toEndOf="@+id/img_top"
         app:layout_constraintTop_toBottomOf="@+id/spinner_kombLetniCas" />
 
     <Button
-        android:id="@+id/btn_kombTop"
+        android:id="@+id/btn_kombVrhnja"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -202,12 +202,12 @@
         android:layout_marginStart="52dp"
         android:layout_marginTop="64dp"
         android:background="@color/bluelight"
-        android:onClick="gumb_izberiTop"
+        android:onClick="gumb_izberiVrhnje"
         android:text="@string/sIzberi"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.071"
-        app:layout_constraintStart_toEndOf="@+id/img_top"
-        app:layout_constraintTop_toBottomOf="@+id/btn_kombVrhnja" />
+        app:layout_constraintStart_toEndOf="@+id/img_vrhnje"
+        app:layout_constraintTop_toBottomOf="@+id/btn_kombTop" />
 
     <Button
         android:id="@+id/btn_kombBottom"
@@ -224,7 +224,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.071"
         app:layout_constraintStart_toEndOf="@+id/img_bottom"
-        app:layout_constraintTop_toBottomOf="@+id/btn_kombTop" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_kombVrhnja" />
 
     <TextView
         android:id="@+id/tv_kombNaziv"
