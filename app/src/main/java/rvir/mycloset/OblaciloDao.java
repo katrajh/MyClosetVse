@@ -38,13 +38,13 @@ public interface OblaciloDao {
 
     // queriji za kombinacije za letne čase in priloznost
 
-    @Query("SELECT * FROM oblacilo WHERE poletje = 1 AND priloznost =:pril")
+    @Query("SELECT * FROM oblacilo WHERE poletje IN (1,2) AND priloznost =:pril")
     List<Oblacilo> getAllPoletje(String pril);
 
-    @Query("SELECT * FROM oblacilo WHERE zima = 1 AND priloznost =:pril")
+    @Query("SELECT * FROM oblacilo WHERE zima IN (1,2) AND priloznost =:pril")
     List<Oblacilo> getAllZima(String pril);
 
-    @Query("SELECT * FROM oblacilo WHERE pomladJesen = 1 AND priloznost =:pril")
+    @Query("SELECT * FROM oblacilo WHERE pomladJesen IN (1,2) AND priloznost =:pril")
     List<Oblacilo> getAllPomladInJesen(String pril);
 
 

@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -22,11 +20,11 @@ public class SeznamOblekZaKombinacijeActivity extends AppCompatActivity {
 
     AppDB db;
 
-    ArrayList<String> list;
+    ArrayList<Oblacilo> list;
     List<Oblacilo> list_obleka;
 
     // vrednost za gumbe ki jih pritisnes na activity dodajKombinacijo
-    int val;
+    int id_gumb;
     int id_vrhnje;
     int id_top;
     int id_bottom;
@@ -34,6 +32,10 @@ public class SeznamOblekZaKombinacijeActivity extends AppCompatActivity {
     long v_letniCas;
     String compareValueKat;
     String compareValueLcas;
+
+    String imgVrhnjeUrl;
+    String imgTopUrl;
+    String imgBottomUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +51,17 @@ public class SeznamOblekZaKombinacijeActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
 
         if (bundle != null) {
-            val = bundle.getInt("vGumb");
+            id_gumb = bundle.getInt("vGumb");
             id_vrhnje = bundle.getInt("vVrhnje");
             id_top = bundle.getInt("vTop");
             id_bottom = bundle.getInt("vBottom");
             v_kategorija = bundle.getLong("vKat");
             v_letniCas = bundle.getLong("vLetCas");
+
+            imgVrhnjeUrl = bundle.getString("imgVrhnjeUrl");
+            imgTopUrl = bundle.getString("imgTopUrl");
+            imgBottomUrl = bundle.getString("imgBottomUrl");
+
         }
 
         // da se naredi list oblačil s temi pogoji
@@ -62,13 +69,13 @@ public class SeznamOblekZaKombinacijeActivity extends AppCompatActivity {
         vrednosti(v_kategorija, v_letniCas);
 
         if(v_letniCas == 0) {
-            list_obleka = db.oblaciloDao().getAllZima(sk.toLowerCase());
+            list_obleka = db.oblaciloDao().getAllPoletje(sk.toLowerCase());
         }
         if(v_letniCas == 1) {
             list_obleka = db.oblaciloDao().getAllPomladInJesen(sk.toLowerCase());
         }
         if(v_letniCas == 2) {
-            list_obleka = db.oblaciloDao().getAllPoletje(sk.toLowerCase());
+            list_obleka = db.oblaciloDao().getAllZima(sk.toLowerCase());
         }
 
 //        list_obleka = db.oblaciloDao().getAll();
@@ -80,13 +87,9 @@ public class SeznamOblekZaKombinacijeActivity extends AppCompatActivity {
         }
         else {
             for (int i=0; i<list_obleka.size(); i++) {
-                int idO = list_obleka.get(i).getId();
-                String nazivO = list_obleka.get(i).getNaziv();
-                String prilO = list_obleka.get(i).getPriloznost();
-                String vrstaO = list_obleka.get(i).getVrsta();
 
-                list.add("Id: "+idO+"\nNaziv: "+nazivO+"\nPriloznost: "+prilO+"\nVrsta: "+vrstaO);
-                ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
+                list.add(list_obleka.get(i));
+                OblaciloListAdapter listAdapter = new OblaciloListAdapter(this, R.layout.single_list_item, list);
                 listViewObleke.setAdapter(listAdapter);
             }
         }
@@ -98,16 +101,18 @@ public class SeznamOblekZaKombinacijeActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 int idOb = list_obleka.get(i).getId();
+                String img = list_obleka.get(i).getSlika();
 
                 Log.w("LOG", "IdOblacilo: "+idOb);
 
                 compareValueKat = sk;
                 compareValueLcas = sl;
 
+
                 Intent intent = new Intent(view.getContext(), DodajKombinacijoActivity.class);
 
-                if(val == 1) {
-                    intent.putExtra("idGumb", val);
+                if(id_gumb == 1) {
+                    intent.putExtra("idGumb", id_gumb);
                     intent.putExtra("idVrhnje", idOb);
                     intent.putExtra("idTop", id_top);
                     intent.putExtra("idBottom", id_bottom);
@@ -115,9 +120,12 @@ public class SeznamOblekZaKombinacijeActivity extends AppCompatActivity {
                     intent.putExtra("vLetCas", v_letniCas);
                     intent.putExtra("compareValueKat", compareValueKat);
                     intent.putExtra("compareValueLcas", compareValueLcas);
+                    intent.putExtra("imgVrhnjeUrl", img);
+                    intent.putExtra("imgTopUrl", imgTopUrl);
+                    intent.putExtra("imgBottomUrl", imgBottomUrl);
                 }
-                if(val == 2) {
-                    intent.putExtra("idGumb", val);
+                if(id_gumb == 2) {
+                    intent.putExtra("idGumb", id_gumb);
                     intent.putExtra("idTop", idOb);
                     intent.putExtra("idVrhnje", id_vrhnje);
                     intent.putExtra("idBottom", id_bottom);
@@ -125,9 +133,12 @@ public class SeznamOblekZaKombinacijeActivity extends AppCompatActivity {
                     intent.putExtra("vLetCas", v_letniCas);
                     intent.putExtra("compareValueKat", compareValueKat);
                     intent.putExtra("compareValueLcas", compareValueLcas);
+                    intent.putExtra("imgVrhnjeUrl", imgVrhnjeUrl);
+                    intent.putExtra("imgTopUrl", img);
+                    intent.putExtra("imgBottomUrl", imgBottomUrl);
                 }
-                if(val == 3) {
-                    intent.putExtra("idGumb", val);
+                if(id_gumb == 3) {
+                    intent.putExtra("idGumb", id_gumb);
                     intent.putExtra("idBottom", idOb);
                     intent.putExtra("idVrhnje", id_vrhnje);
                     intent.putExtra("idTop", id_top);
@@ -135,6 +146,9 @@ public class SeznamOblekZaKombinacijeActivity extends AppCompatActivity {
                     intent.putExtra("vLetCas", v_letniCas);
                     intent.putExtra("compareValueKat", compareValueKat);
                     intent.putExtra("compareValueLcas", compareValueLcas);
+                    intent.putExtra("imgVrhnjeUrl", imgVrhnjeUrl);
+                    intent.putExtra("imgTopUrl", imgTopUrl);
+                    intent.putExtra("imgBottomUrl", img);
                 }
 
                 startActivity(intent);
@@ -163,15 +177,14 @@ public class SeznamOblekZaKombinacijeActivity extends AppCompatActivity {
             sk = "Obleka";
         }
 
-
         if(l == 0) {
-            sl = "Zima";
+            sl = "Poletje";
         }
         if(l== 1) {
             sl = "Pomlad in jesen";
         }
         if(l == 2) {
-            sl = "Poletje";
+            sl = "Zima";
         }
     }
 

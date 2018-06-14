@@ -7,12 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Spinner;
 import android.widget.TextView;
-
+/*
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
-
+*/
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.net.MalformedURLException;
@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class KajNajOblecemActivity extends AppCompatActivity {
+    /*
+
     Document doc;
     int intTemp;
     AppDB db;
@@ -95,4 +97,6 @@ public class KajNajOblecemActivity extends AppCompatActivity {
         intent.putParcelableArrayListExtra("kombinacije",kombinacije);
         startActivity(intent);
     }
+
+    */
 }
