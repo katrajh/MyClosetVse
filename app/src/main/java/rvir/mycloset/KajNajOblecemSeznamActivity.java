@@ -24,7 +24,7 @@ public class KajNajOblecemSeznamActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kaj_naj_oblecem_seznam);
-        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.imagegallery);
+        RecyclerView recyclerView =findViewById(R.id.imagegallery);
         recyclerView.setHasFixedSize(false);
 
         db = Room.databaseBuilder(getApplicationContext(),AppDB.class, "rvir")
@@ -32,15 +32,16 @@ public class KajNajOblecemSeznamActivity extends AppCompatActivity {
                 .build();
 
         Bundle data = getIntent().getExtras();
-        list_kombinacij = data.getParcelableArrayList("kombinacije");
 
 
-        if(list_kombinacij.size() == 0) {
+        if (data != null) list_kombinacij = data.getParcelableArrayList("kombinacije");
+
+
+        if(list_kombinacij.size() == 0)
             Toast.makeText(KajNajOblecemSeznamActivity.this, "Najprej dodajte kombinacije!", Toast.LENGTH_LONG).show();
-        }
         else {
             for (int i=0; i<list_kombinacij.size(); i++) {
-                oblekeKombinacije=new ArrayList();
+                oblekeKombinacije= new ArrayList<>();
                 int idTop=list_kombinacij.get(i).getTk_top();
                 int idBottom=list_kombinacij.get(i).getTk_bottom();
                 int idPovrhnje=list_kombinacij.get(i).getTk_povrhnje();
@@ -77,7 +78,7 @@ public class KajNajOblecemSeznamActivity extends AppCompatActivity {
             Polica polica =db.policaDao().getPolicaById(oblekeKombinacije.get(i).getTk_polica(),oblekeKombinacije.get(i).getTk_omara());
 
             createList.setImage_title("Omara: "+omara.getNaziv()+"\nPolica: "+polica.getNaziv());
-            createList.setImage_ID("/storage/emulated/0/Android/data/rvir.mycloset/files/Pictures/JPEG_20180614_172532_868777119151335066.jpg");
+            createList.setImage_ID(oblekeKombinacije.get(i).getSlika());
             theimage.add(createList);
         }
         return theimage;

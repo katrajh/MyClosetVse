@@ -7,12 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Spinner;
 import android.widget.TextView;
-/*
+
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
-*/
+
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.net.MalformedURLException;
@@ -22,8 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class KajNajOblecemActivity extends AppCompatActivity {
-    /*
-
     Document doc;
     int intTemp;
     AppDB db;
@@ -53,7 +51,7 @@ public class KajNajOblecemActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     try {
-                        doc = (Document) builder.build(url);
+                        doc = builder.build(url);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -67,7 +65,7 @@ public class KajNajOblecemActivity extends AppCompatActivity {
             List<Element> list = rootNode.getChildren();
             String temp=rootNode.getChild("temperature").getAttributeValue("value");
             double dTemp=Double.parseDouble(temp);
-            intTemp=Integer.valueOf((int) Math.round(dTemp));
+            intTemp= (int) Math.round(dTemp);
             temperatura.setTextSize(30);
             temperatura.setText(intTemp+"°C");
 
@@ -93,10 +91,8 @@ public class KajNajOblecemActivity extends AppCompatActivity {
         }else{
             letniCas="Pomlad in jesen";
         }
-        kombinacije=(ArrayList<Kombinacija>)db.kombinacijaDao().findbypriloznostLetniCas("Poletje",priloznost);
+        kombinacije=(ArrayList<Kombinacija>)db.kombinacijaDao().findbypriloznostLetniCas(letniCas,priloznost);
         intent.putParcelableArrayListExtra("kombinacije",kombinacije);
         startActivity(intent);
     }
-
-    */
 }
