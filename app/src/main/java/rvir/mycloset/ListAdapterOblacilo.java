@@ -25,7 +25,7 @@ import java.util.List;
 
 import io.reactivex.annotations.NonNull;
 
-public class OblaciloListAdapter extends ArrayAdapter<Oblacilo> {
+public class ListAdapterOblacilo extends ArrayAdapter<Oblacilo> {
 
     private List<CreateList> galleryList;
     ArrayList<Oblacilo> oblacila;
@@ -39,7 +39,7 @@ public class OblaciloListAdapter extends ArrayAdapter<Oblacilo> {
         ImageView img;
     }
 
-    public OblaciloListAdapter(Context context, int resource, ArrayList<Oblacilo> objects) {
+    public ListAdapterOblacilo(Context context, int resource, ArrayList<Oblacilo> objects) {
         super(context, resource, objects);
         this.context = context;
         this.resource = resource;
