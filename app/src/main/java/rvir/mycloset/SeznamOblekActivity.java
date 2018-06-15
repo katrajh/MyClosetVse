@@ -45,7 +45,7 @@ public class SeznamOblekActivity extends AppCompatActivity {
             Toast.makeText(SeznamOblekActivity.this, "Tabela je prazna!", Toast.LENGTH_LONG).show();
         }
         else {
-            for (int i=0; i<list_obleka.size()-1; i++) {
+            for (int i=0; i<list_obleka.size(); i++) {
                 String nazivO = list_obleka.get(i).getNaziv();
 
                 list.add(nazivO);

@@ -40,8 +40,9 @@ public class KajNajOblecemSeznamActivity extends AppCompatActivity {
         if(list_kombinacij.size() == 0)
             Toast.makeText(KajNajOblecemSeznamActivity.this, "Najprej dodajte kombinacije!", Toast.LENGTH_LONG).show();
         else {
+            ArrayList<CreateList> theimage = new ArrayList<>();
             for (int i=0; i<list_kombinacij.size(); i++) {
-                oblekeKombinacije= new ArrayList<>();
+                oblekeKombinacije=new ArrayList<Oblacilo>();
                 int idTop=list_kombinacij.get(i).getTk_top();
                 int idBottom=list_kombinacij.get(i).getTk_bottom();
                 int idPovrhnje=list_kombinacij.get(i).getTk_povrhnje();
@@ -53,15 +54,31 @@ public class KajNajOblecemSeznamActivity extends AppCompatActivity {
                 }
 
 
-                RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(),2);
 
-                recyclerView.setLayoutManager(layoutManager);
-
-                ArrayList<CreateList> createLists = prepareData();
-
-                GalleryAdapter adapter = new GalleryAdapter(getApplicationContext(), createLists);
                 recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-                recyclerView.setAdapter(adapter);
+
+
+                for(int j = 0; j< oblekeKombinacije.size(); j++){
+                    RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(),oblekeKombinacije.size());
+
+                    recyclerView.setLayoutManager(layoutManager);
+
+                    CreateList createList = new CreateList();
+                    Omara omara =db.omaraDao().getOmaraById(oblekeKombinacije.get(j).getTk_omara());
+                    Polica polica =db.policaDao().getPolicaById(oblekeKombinacije.get(j).getTk_polica(),oblekeKombinacije.get(j).getTk_omara());
+
+                    createList.setImage_title("Omara: "+omara.getNaziv()+"\nPolica: "+polica.getNaziv());
+                    createList.setImage_ID(oblekeKombinacije.get(j).getSlika());
+                    theimage.add(createList);
+                    ArrayList<CreateList> createLists = theimage;
+
+                    GalleryAdapter adapter = new GalleryAdapter(getApplicationContext(), createLists);
+
+                    recyclerView.setAdapter(adapter);
+
+                }
+
+
 
             }
         }
@@ -69,18 +86,5 @@ public class KajNajOblecemSeznamActivity extends AppCompatActivity {
 
 
     }
-    private ArrayList<CreateList> prepareData(){
 
-        ArrayList<CreateList> theimage = new ArrayList<>();
-        for(int i = 0; i< oblekeKombinacije.size(); i++){
-            CreateList createList = new CreateList();
-            Omara omara =db.omaraDao().getOmaraById(oblekeKombinacije.get(i).getTk_omara());
-            Polica polica =db.policaDao().getPolicaById(oblekeKombinacije.get(i).getTk_polica(),oblekeKombinacije.get(i).getTk_omara());
-
-            createList.setImage_title("Omara: "+omara.getNaziv()+"\nPolica: "+polica.getNaziv());
-            createList.setImage_ID(oblekeKombinacije.get(i).getSlika());
-            theimage.add(createList);
-        }
-        return theimage;
-    }
 }
