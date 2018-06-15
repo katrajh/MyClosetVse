@@ -115,7 +115,7 @@ public class SeznamOblekZaKombinacijeActivity extends AppCompatActivity {
             for (int i=0; i<list_obleka.size(); i++) {
 
                 list.add(list_obleka.get(i));
-                OblaciloListAdapter listAdapter = new OblaciloListAdapter(this, R.layout.single_list_item, list);
+                ListAdapterOblacilo listAdapter = new ListAdapterOblacilo(this, R.layout.single_list_item, list);
                 listViewObleke.setAdapter(listAdapter);
             }
         }
@@ -135,7 +135,7 @@ public class SeznamOblekZaKombinacijeActivity extends AppCompatActivity {
                 compareValueKat = sk;
                 compareValueLcas = sl;
 
-
+                finish();
                 Intent intent = new Intent(view.getContext(), DodajKombinacijoActivity.class);
 
                 if(id_gumb == 1) {
@@ -180,6 +180,7 @@ public class SeznamOblekZaKombinacijeActivity extends AppCompatActivity {
                 }
 
                 startActivity(intent);
+                finish();
 
             }
         });

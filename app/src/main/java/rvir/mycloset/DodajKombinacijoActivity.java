@@ -151,8 +151,8 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
         }
 
 
-        Log.w("+++++++++ LOG DodajKomb", "Vrhnje: "+ idVrhnje);
         Log.w("+++++++++ LOG DodajKomb", "Top: "+ idTop);
+        Log.w("+++++++++ LOG DodajKomb", "Vrhnje: "+ idVrhnje);
         Log.w("+++++++++ LOG DodajKomb", "Bottom: "+ idBottom);
         Log.w("+++++++++ LOG DodajKomb", "kategorija: "+ v_kategorija);
         Log.w("+++++++++ LOG DodajKomb", "letni cas: "+ v_letniCas);
@@ -201,6 +201,9 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
                     kombinacija.setNaziv(nazivK);
                     kombinacija.setPriloznost(katK);
                     kombinacija.setLetniCas(letniCasK);
+                    kombinacija.setSlikaTop(imgTopUrl);
+                    kombinacija.setSlikaVrhnje(imgVrhnjeUrl);
+                    kombinacija.setSlikaBottom(imgBottomUrl);
                     kombinacija.setTk_top(top);
                     kombinacija.setTk_povrhnje(vrhnje);
                     kombinacija.setTk_bottom(bottom);
@@ -241,6 +244,7 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
         intent.putExtra("imgVrhnjeUrl", imgVrhnjeUrl);
         intent.putExtra("imgBottomUrl", imgBottomUrl);
         startActivity(intent);
+        finish();
 
     }
 
@@ -259,6 +263,7 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
         intent.putExtra("imgVrhnjeUrl", imgVrhnjeUrl);
         intent.putExtra("imgBottomUrl", imgBottomUrl);
         startActivity(intent);
+        finish();
     }
 
     public void gumb_izberiBottom(View view){
@@ -274,6 +279,7 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
         intent.putExtra("imgVrhnjeUrl", imgVrhnjeUrl);
         intent.putExtra("imgBottomUrl", imgBottomUrl);
         startActivity(intent);
+        finish();
     }
 
     String sk;
