@@ -14,6 +14,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -27,7 +29,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SeznamOmarActivity extends AppCompatActivity implements PopUpDialog_DodajOmaro.DialogListener{
+public class SeznamOmarActivity extends AppCompatActivity implements PopUpDialog_DodajOmaro.DialogListener {
 
     Dialog dialog_dodajOmaro;
     FloatingActionButton btn_dodaj;
@@ -57,7 +59,7 @@ public class SeznamOmarActivity extends AppCompatActivity implements PopUpDialog
 
         listViewOmare = (ListView) findViewById(R.id.lv_omare);
 
-        db = Room.databaseBuilder(getApplicationContext(),AppDB.class, "rvir")
+        db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "rvir")
                 .allowMainThreadQueries().fallbackToDestructiveMigration()
                 .build();
 
@@ -65,11 +67,10 @@ public class SeznamOmarActivity extends AppCompatActivity implements PopUpDialog
 
         list = new ArrayList<>();
 
-        if(list_omara.size() == 0) {
+        if (list_omara.size() == 0) {
             Toast.makeText(SeznamOmarActivity.this, "Tabela je prazna!", Toast.LENGTH_LONG).show();
-        }
-        else {
-            for (int i=0; i<list_omara.size(); i++) {
+        } else {
+            for (int i = 0; i < list_omara.size(); i++) {
                 String nazivO = list_omara.get(i).getNaziv();
 
                 list.add(nazivO);
@@ -92,8 +93,10 @@ public class SeznamOmarActivity extends AppCompatActivity implements PopUpDialog
                 int idO = listo.get(i).getId();
                 String nazivO = listo.get(i).getNaziv();
 
-                Log.w("LOG", "IdO: "+idO);
-                Log.w("LOG", "naziv: "+nazivO);
+                Log.w("LOG", "IdO: " + idO);
+                Log.w("LOG", "naziv: " + nazivO);
+
+                finish();
 
                 Intent intent = new Intent(getApplicationContext(), SeznamPolicActivity.class);
                 intent.putExtra("idO", idO);
@@ -104,6 +107,7 @@ public class SeznamOmarActivity extends AppCompatActivity implements PopUpDialog
             }
         });
 
+        registerForContextMenu(listViewOmare);
 
         // gumb DELETE
 
@@ -120,6 +124,27 @@ public class SeznamOmarActivity extends AppCompatActivity implements PopUpDialog
 
     }
 
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        if(v.getId() == R.id.lv_omare) {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+            menu.setHeaderTitle("Kaj želite storiti s to omaro?");
+            menu.add("Izbriši omaro");
+        }
+    }
+
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
+        Omara idO = db.omaraDao().getAll().get(info.position);
+
+        db.omaraDao().delete(idO);
+
+        startActivity(new Intent(getApplicationContext(), SeznamOmarActivity.class));
+        finish();
+
+        return true;
+    }
+
 
     @Override
     public void applyInput(String naziv) {
@@ -128,11 +153,10 @@ public class SeznamOmarActivity extends AppCompatActivity implements PopUpDialog
 
         list = new ArrayList<>();
 
-        if(list_omara.size() == 0) {
+        if (list_omara.size() == 0) {
             Toast.makeText(SeznamOmarActivity.this, "Tabela je prazna!", Toast.LENGTH_LONG).show();
-        }
-        else {
-            for (int i=0; i<list_omara.size(); i++) {
+        } else {
+            for (int i = 0; i < list_omara.size(); i++) {
                 String nazivO = list_omara.get(i).getNaziv();
 
                 list.add(nazivO);
@@ -144,35 +168,10 @@ public class SeznamOmarActivity extends AppCompatActivity implements PopUpDialog
     }
 
 
-
     // TA DELA ZA POP UP DIALOG !
     public void openDialog() {
         PopUpDialog_DodajOmaro pop = new PopUpDialog_DodajOmaro();
         pop.show(getSupportFragmentManager(), "dodaj omaro dialog");
     }
 
-    /*
-        to ne dela !!!! ugotovi zakaj !
-
-    public void showDialog_dodajO (View view) {
-        TextView tv_naslov;
-        EditText et_nazivOmare;
-        Button btn_dodajOmaro;
-        dialog_dodajOmaro.setContentView(R.layout.popup_dodaj_omaro);
-        tv_naslov = (TextView) dialog_dodajOmaro.findViewById(R.id.tv_naslovDo);
-        btn_dodajOmaro = (Button) dialog_dodajOmaro.findViewById(R.id.btn_dodajOmaro);
-        et_nazivOmare = (EditText) dialog_dodajOmaro.findViewById(R.id.et_nazivOmare);
-
-        btn_dodajOmaro.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog_dodajOmaro.dismiss();
-            }
-        });
-
-        dialog_dodajOmaro.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog_dodajOmaro.show();
-    }
-
-    */
 }

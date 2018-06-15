@@ -128,8 +128,20 @@ public class DodajOblekoActivity extends AppCompatActivity {
         Spinner  policaSpinner=(Spinner) findViewById(R.id.spinnerPolica);
         long polica = policaSpinner.getSelectedItemId();
         oblacilo.setTk_polica((int)polica+1);
-        if(oblacilo.getSlika()!=null&&oblacilo.getNaziv()!=""){
+
+        if(oblacilo.getSlika()!=null&&oblacilo.getNaziv()!=null){
+            Polica p = db.policaDao().getPolicaById(oblacilo.getTk_polica(), oblacilo.getTk_omara());
+            int kapac = p.getKapaciteta();
+
+            if (kapac == 0) {
+                Toast.makeText(DodajOblekoActivity.this, "Polica je zapolnjena. Prosimo izberite drugo polico", Toast.LENGTH_LONG).show();
+            }else {
+                kapac = kapac - 1;
+                p.setKapaciteta(kapac);
+            }
+
             db.oblaciloDao().insert(oblacilo);
+            db.policaDao().update(p);
 
             startActivity(intent);
         }else{
@@ -225,6 +237,7 @@ public class DodajOblekoActivity extends AppCompatActivity {
         // Get the dimensions of the bitmap
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
         bmOptions.inJustDecodeBounds = true;
+        bmOptions.inSampleSize = 8;
         BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
         int photoW = bmOptions.outWidth;
         int photoH = bmOptions.outHeight;

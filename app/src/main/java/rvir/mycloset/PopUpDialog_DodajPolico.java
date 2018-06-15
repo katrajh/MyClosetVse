@@ -34,7 +34,7 @@ public class PopUpDialog_DodajPolico extends AppCompatDialogFragment{
         }
 
         db = Room.databaseBuilder(getContext(), AppDB.class, "rvir")
-                .allowMainThreadQueries()
+                .allowMainThreadQueries().fallbackToDestructiveMigration()
                 .build();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
