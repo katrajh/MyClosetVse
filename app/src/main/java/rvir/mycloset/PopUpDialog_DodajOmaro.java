@@ -31,7 +31,7 @@ public class PopUpDialog_DodajOmaro extends AppCompatDialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         db = Room.databaseBuilder(getContext(),AppDB.class, "rvir")
-                .allowMainThreadQueries()
+                .allowMainThreadQueries().fallbackToDestructiveMigration()
                 .build();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

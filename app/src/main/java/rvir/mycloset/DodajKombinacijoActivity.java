@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -79,8 +80,6 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
         adapterLetniCas.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp_letniCas.setAdapter(adapterLetniCas);
 
-        et_nazivKomb = (EditText) findViewById(R.id.et_kombNaziv);
-
         imgViewVrhnje = (ImageView) findViewById(R.id.img_top);
         imgViewTop = (ImageView) findViewById(R.id.img_vrhnje);
         imgViewBottom = (ImageView) findViewById(R.id.img_bottom);
@@ -120,15 +119,9 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
 
         List<Oblacilo> oblaciloList = db.oblaciloDao().getAll();
 
-        Log.w("LOG blacilo", "oblaciloList.size: "+oblaciloList.size());
-        for (int i=0; i<oblaciloList.size(); i++) {
-            Log.w("LOG v for oblacilo", "v for");
-            if(oblaciloList.get(i).getId() == idTop && oblaciloList.get(i).getVrsta() == "obleka") {
-                Log.w("LOG v for oblacilo", "v for if PRED");
+            if(vrstaOblacila == "obleka") {
                 btnIzberiBottom.setEnabled(false);
                 btnIzberiBottom.setClickable(false);
-                Log.w("LOG v for oblacilo", "v for if ZA");
-            }
         }
 
         if(compareValueKat != null || compareValueLcas!= null){
@@ -184,35 +177,49 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 if(idGumb != 0) {
 
+                    et_nazivKomb = (EditText) findViewById(R.id.et_kombNaziv);
+
+                    kombinacija = new Kombinacija();
+
                     vrednosti(v_kategorija, v_letniCas);
 
                     String nazivK = et_nazivKomb.getText().toString();
                     String katK = sk;
                     String letniCasK = sl;
-                    int top = idTop;
-                    int vrhnje = idVrhnje;
-                    int bottom = idBottom;
 
-                    Log.w("+++ LOG v shrani", "Top: "+ top);
-                    Log.w("+++ LOG v shrani", "Vrhnje: "+ vrhnje);
-                    Log.w("+++ LOG v shrani", "Bottom: "+ bottom);
+                    if(idBottom == 0) {
+                        idBottom = 10000;
+                    }
+                    if(idVrhnje== 0) {
+                        idVrhnje = 10000;
+                    }
+
+                    Log.w("+++ LOG v shrani", "Top: "+ idTop);
+                    Log.w("+++ LOG v shrani", "Vrhnje: "+ idVrhnje);
+                    Log.w("+++ LOG v shrani", "Bottom: "+ idBottom);
 
 
                     kombinacija.setNaziv(nazivK);
                     kombinacija.setPriloznost(katK);
                     kombinacija.setLetniCas(letniCasK);
-                    kombinacija.setSlikaTop(imgTopUrl);
-                    kombinacija.setSlikaVrhnje(imgVrhnjeUrl);
-                    kombinacija.setSlikaBottom(imgBottomUrl);
-                    kombinacija.setTk_top(top);
-                    kombinacija.setTk_povrhnje(vrhnje);
-                    kombinacija.setTk_bottom(bottom);
+                    //kombinacija.setSlikaTop(imgTopUrl);
+                    //kombinacija.setSlikaVrhnje(imgVrhnjeUrl);
+                    //kombinacija.setSlikaBottom(imgBottomUrl);
+                    kombinacija.setTk_top(idTop);
+                    kombinacija.setTk_povrhnje(idVrhnje);
+                    kombinacija.setTk_bottom(idBottom);
 
-                    db.kombinacijaDao().insertAll(kombinacija);
+                    if(kombinacija.getNaziv() != null) {
+                        db.kombinacijaDao().insertAll(kombinacija);
 
-                    Intent intent = new Intent(getApplicationContext(), SeznamKombinacijActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), SeznamKombinacijActivity.class);
 
-                    startActivity(intent);
+                        startActivity(intent);
+
+                    }
+                    else {
+                        Toast.makeText(DodajKombinacijoActivity.this, "Niste vnesli vseh podatkov", Toast.LENGTH_LONG).show();
+                    }
 
                     finish();
 
@@ -311,18 +318,19 @@ public class DodajKombinacijoActivity extends AppCompatActivity {
     }
 
 
-    private void setupImageLoader() {
-        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-                .cacheOnDisk(true).cacheInMemory(true)
-                .imageScaleType(ImageScaleType.EXACTLY)
-                .displayer(new FadeInBitmapDisplayer(200)).build();
-
-        ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(getApplicationContext())
-                .defaultDisplayImageOptions(defaultOptions)
-                .memoryCache(new WeakMemoryCache())
-                .diskCacheSize(100 * 1024 * 1024).build();
-
-        ImageLoader.getInstance().init(configuration);
-    }
+//
+//    private void setupImageLoader() {
+//        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+//                .cacheOnDisk(true).cacheInMemory(true)
+//                .imageScaleType(ImageScaleType.EXACTLY)
+//                .displayer(new FadeInBitmapDisplayer(200)).build();
+//
+//        ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(getApplicationContext())
+//                .defaultDisplayImageOptions(defaultOptions)
+//                .memoryCache(new WeakMemoryCache())
+//                .diskCacheSize(100 * 1024 * 1024).build();
+//
+//        ImageLoader.getInstance().init(configuration);
+//    }
 
 }
